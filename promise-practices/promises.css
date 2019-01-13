@@ -1,0 +1,18 @@
+.post-create-button {
+	background-color: grey;
+	margin: 15px;
+}
+
+
+.blog-post {
+	border: 1px solid black;
+	width: 40%;
+	height: 200px;
+	margin: 10px;
+}
+
+.blog-post-title {
+	font-size: 30px;
+	color: crimson;
+}
+

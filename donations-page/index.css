@@ -1,0 +1,74 @@
+
+
+body {
+	margin: 10px;
+	color: black;
+	background-color: #EDEDED;
+}
+
+.donate-page {
+	width: 33%;
+}
+
+.help-message {
+	color: grey;
+}
+
+.donate-counter {	
+	padding: 5px 10px;
+	margin: 15px;
+	background-color: #DCDCDC;
+	
+}
+
+.progress-bar-total {
+	background-color: white;
+	border-radius: 15px;
+	padding: 2px;
+	margin: 4px;
+}
+.progress-bar-completed {
+	background-color: #154393;
+	border-radius: 15px;
+	height: 8px;
+	transition-duration: 2s;
+	width: 0;
+
+
+}
+
+.donate-selection {
+	margin: 15px;
+	background-color: #DCDCDC; 
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 5px 20px 5px 15px;
+}
+
+.donate-selection-title {
+	font-size: 25px;
+	margin: 3px;
+}
+
+.donate-selection-row {
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	align-content: center;
+}
+
+
+.donate-selection-box {
+	color: white;
+	background-color: #154393;
+	width: 21%;
+	margin: 0px 6px 6px 0px;
+	padding: 9px;
+	cursor: pointer;
+}
+
+.donation-pic {
+	float: left;
+}

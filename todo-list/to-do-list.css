@@ -1,0 +1,16 @@
+.title {
+	font-size: 100px;
+	color: crimson;
+}
+
+.container {
+	border: 4px solid black;
+	width: 30%;
+	height: 200px;
+	padding: 10px;
+	background-color: grey;
+}
+
+.entire-list {
+	color: blue;
+}

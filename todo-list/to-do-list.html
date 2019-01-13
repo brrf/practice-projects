@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>To Do List</title>
+	<link rel="stylesheet" href="./to-do-list.css">
+
+</head>
+<body>
+
+<p1 class="title">Practice Todo List</p1>
+
+<div class="container">
+	<ol class="entire-list">
+		
+		
+	</ol>
+</div>
+
+<div>
+	<button onclick='handlers.toggleAll()'>Complete All</button>
+</div>
+
+<div>
+	<input type="number" class="toggleCompletedPosition">
+	<button onclick='handlers.toggleCompleted()'>Which Task to Complete?</button>
+
+<div>
+	<input type="text" class="addTodoText">
+	<button onclick='handlers.addTodo()'>Add a Task</button>
+</div>
+
+<div>
+	<input type="number" class='changeTodoPosition' placeholder='which task to change?'>
+	<input type="text" class='changeTodoText' placeholder='change text:'>
+	<button onclick='handlers.changeTodo()'>Change a Task</button>
+</div>
+
+
+<script src="./to-do-list.js"></script>
+
+</body>
+</html>
