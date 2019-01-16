@@ -1,0 +1,115 @@
+body {
+	background-color: #eee;
+	font-family: 'Lato', sans-serif;
+	padding: 0px;
+	margin: 0px;
+}
+
+#header {
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	background-color: #eee;
+	display: flex;
+	flex-direction: row;
+}
+
+.logo-img {
+	height: 35px;
+	padding: 20px;
+}
+
+.nav-bar {
+	width: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.nav-links {
+	padding-right: 100px;
+}
+
+.nav-links:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#main {
+	margin: 100px;
+	text-align: center; 
+}
+
+.input-email {
+	margin-bottom: 110px;
+}
+
+#email {
+	width: 22%;
+	height: 25px;
+	margin: 15px;
+}
+
+#submit {
+	display: block;
+	margin: auto;
+	padding: 4px 5px;
+	width: 160px;
+	height: 30px;
+	background-color: #f7c400;
+	font-weight: 900;
+	font-size: 1em;
+	border-radius: 2px;
+	vertical-align: top;
+	border: none;
+}
+
+#submit:hover {
+	cursor: pointer;
+	background-color: #f79000;
+	transition-duration: 800ms;
+}
+
+.features {
+	margin: 0px 125px 0px 125px;
+}
+
+.feature {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 60px;
+}
+
+.graphic {
+	width: 20vw;
+}
+
+.feature-content {
+	width: 80vw;
+	text-align: left;
+}
+
+h3, p {
+	margin: 0;
+	padding: 0;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+.icon {
+	color: #f79000;
+}
+
+.how-it-works {
+	margin-bottom: 100px;
+}
+.footer {
+	background-color: #ddd;
+}
