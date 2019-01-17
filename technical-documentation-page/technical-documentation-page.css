@@ -1,0 +1,41 @@
+#main {
+	display: grid;
+	grid-template-columns: 20% 80%;
+	font-family: 'Open Sans',Arial,sans-serif;
+}
+
+#menu {
+	position: fixed;
+	width: 300px;
+}
+
+.menu-title {
+	padding: 20px 25px 25px 25px;
+	font-size: 1.5em;
+}
+.menu-item {
+	border-top: 1px solid black;
+	padding: 15px 25px;
+	color: #4d4e53;
+}
+
+#content {
+	width: 100%;
+	margin-left: 300px;
+	border-left: 3px solid grey;
+	border-right: 1px solid crimson;
+}
+
+.content-section {
+	padding: 15px;
+}
+
+.section-title {
+	font-size: 1.5em;
+	margin-bottom: 20px;
+}
+
+.section-content {
+	padding: 15px;
+	color: #4d4e53;
+}
