@@ -67,3 +67,47 @@ function chessboard (width, height) {
 	console.log(board);
 }
 */
+
+/*
+//Minimum
+
+function min(value1, value2) {
+	if (value1 <= value2) {
+		return value1;
+	}
+	else return value2;
+}
+
+alert(min(5, 5));
+
+*/
+
+/*
+//Recursion
+
+function isEven(number) {
+	if (number === 0) {
+		return true;
+	} else if (number === 1) {
+		return false;
+	}
+	else return isEven(number - 2);
+};
+
+alert( isEven(75) );
+*/
+
+
+//Bean Counting
+
+/*
+function countChar (string, char) {
+	let count = 0
+	for(let i = 0; i < string.length; i++) {
+		if (string[i] === char) {
+			count++;
+		}
+	}
+	return count;
+}
+*/
