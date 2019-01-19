@@ -155,3 +155,8 @@ h3 {
 	align-items: center;
 	text-decoration: none;
 }
+
+.contact-method:hover {
+	background-color: #4A67C5;
+	border-color: #3ab3d8;
+}
