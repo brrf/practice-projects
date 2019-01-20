@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Gallery</title>
+    
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="./refresher.css">
+</head>
+
+<body>
+
+<div>
+  <h1>Joseph Todaro
+</div>
+
+
+<div class="heart"></div>
+
+
+<script>
+
+function isPrime (number) {
+	for (let i = 2; i < number; i++) {
+		if (number % i === 0) {
+			return false
+		}
+	}
+	return true;
+}
+
+function sumAllPrimes (number) {
+	let primes = [];
+	let sum = 0;
+	for (let i =1; i <= number; i++) {
+		if ( isPrime(i) ) {
+			primes.push(i);
+			sum += i;
+		}
+	}
+	return {primes, sum};
+}
+
+
+console.log( sumAllPrimes(27) );
+
+
+</script>	
+
+
+  
+</body>
+</html>
