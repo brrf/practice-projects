@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Basic Algorithm Scripting</title>
+</head>
+<body>
+	
+
+
+
+	<script>
+		
+	function convertToF(celsius) {
+	  let fahrenheit = celsius * 9/5 + 32;
+	  return fahrenheit;
+	}
+
+	function reverseString(str) {
+	  let stringArr = [];
+	  let reverseString = ''
+
+	  for (let i = 0; i < str.length; i++) {
+	    stringArr.push(str[i]);
+	  }
+	  for (let i = stringArr.length; i > 0; i--) {
+	    reverseString += stringArr[i - 1];
+	  }
+	  return reverseString;
+	}
+
+	function findLongestWordLength(str) {
+	  let longestWordLength = 0;
+	  let arr = str.split(' ')
+	  console.log(arr);
+	  for (let i = 0; i < arr.length; i++) {
+	  	if (arr[i].length > longestWordLength) {
+	  		longestWordLength = arr[i].length;
+	  	}
+	  	
+	  }
+	  return longestWordLength
+	}
+
+	function largestOfFour(arr) {
+  	  let returnArr = [];
+  	  for (let i = 0; i < arr.length; i++) {
+  	  	let subArray = arr[i];
+  	  	for (let j = 0; j < subArray.length; j++) {
+  	  		let largestInSubarray = 0;
+  	  		if (subArray[j] > largestInSubarray) {
+  	  			largestinSubarray = subArray[j];
+  	  		}
+  	  	}
+  	  		returnArr.push(largestInSubarray);
+  	  }
+	  return returnArr;
+	}
+
+	largestOfFour([[4, 5, 1, 3], [13, 27, 18, 26], [32, 35, 37, 39], [1000, 1001, 857, 1]]);
+
+	</script>
+</body>
+</html>
