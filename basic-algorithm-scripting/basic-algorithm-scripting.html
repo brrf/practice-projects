@@ -58,22 +58,69 @@
 	}
 
 
-function confirmEnding(str, target) {
+	function confirmEnding(str, target) {
 
-		for (let i = 0; i < target.length; i++) {
-			if (str[str.length - target.length + i] !== target[i]) {
-				return false
-			}			
+			for (let i = 0; i < target.length; i++) {
+				if (str[str.length - target.length + i] !== target[i]) {
+					return false
+				}			
+			}
+		  return true;
 		}
-	  return true;
+
+	function confirmEndingSlice(str, target) {
+		return str.slice(str.length - target.length) === target;;
+
 	}
 
-function confirmEndingSlice(str, target) {
-	return str.slice(str.length - target.length) === target;;
+	function repeatStringNumTimes(str, num) {
+	  let returnString = ''
+	  for (let i = 0; i < num; i++) {
+	  	returnString += str;
+	  }
+	  return returnString;
+	}
 
-}
+	function truncateString(str, num) {
+		
+		if (num < str.length) {
+			return `${str.slice(0, num)}...`;
+		}
+	  return str;
+	}
 
-	console.log(confirmEndingSlice("Bastian", "taan"));
+	function findElement(arr, func) {
+		  
+		for (let i = 0; i < arr.length; i++) {
+			
+			if (func(arr[i])) {
+				return arr[i];
+			}
+		}
+		return undefined;
+	}
+
+	function titleCase(str) {
+	  let lowerStrArray = str.toLowerCase().split(' ');	
+	  for (let i = 0; i < lowerStrArray.length; i++) {
+	  	lowerStrArray[i] = `${lowerStrArray[i][0].toUpperCase()}${lowerStrArray[i].slice(1)}`
+	  }
+	  return lowerStrArray.join(' ');
+	}
+
+	function frankenSplice(arr1, arr2, n) {
+	  let arr3 = arr2.slice();
+	 
+	  for (let i = 0; i < arr1.length; i++) {
+	  	arr3.splice(n, 0, arr1[i]);
+	  	n++;
+	  	  
+	  }
+	  return arr3;
+	}
+
+console.log( frankenSplice([1, 2, 3], [4, 5, 6], 1));
+
 
 
 
