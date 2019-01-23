@@ -133,7 +133,38 @@
 		return arr.filter(Boolean)
 	}
 
+	function getIndexToIns(arr, num) {
+	  arr.sort(function(a, b){return a-b});
+	  for (let i = 0; i < arr.length; i++) {
+	  	while (num > arr[i]) {
+	  		i++
+	  	}
+	  	return i;
+	  }
+	  return arr.length;
+	}
 
+	function mutation(arr) {
+		let arr0 = arr[0].toLowerCase();
+		let arr1 = arr[1].toLowerCase();
+		
+		for (let i = 0; i < arr1.length; i++) {
+			if (arr0.indexOf(arr1[i]) < 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function chunkArrayInGroups(arr, size) {
+	  
+		let returnArr = [];
+		let iterations = arr.length / size;
+		for (let i = 0; i < iterations; i++) {
+			returnArr.push(arr.splice(0, size));
+		}
+	  return returnArr;
+	}
 
 
 
