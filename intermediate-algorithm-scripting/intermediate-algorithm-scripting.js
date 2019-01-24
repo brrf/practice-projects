@@ -33,9 +33,38 @@ function destroyer(arr, ...args) {
 	});
 }
 
-console.log( destroyer([1, 2, 3, 1, 2, 3], 2, 3) );
+function whatIsInAName(collection, source) {
 
+  let keys = Object.keys(source);
 
+  return collection.filter(function(obj) {
+  	for (let i = 0; i < keys.length; i++) {
+  		if( !obj.hasOwnProperty(keys[i]) || obj[keys[i]] !== source[keys[i]] ) {
+  			return false;
+  		}
+  	}
+  	return true;
+  })
+}
 
+function spinalCase(str) {
+
+	str = str.replace(/([a-z])([A-Z])/g, '$1 $2');
+	return str.split(/\s+|_+/g).join('-').toLowerCase();
+}
+
+function translatePigLatin(str) {
+
+	let regex = /^[^aeiou]+/;
+	if (!regex.test(str)) {
+		return str + "way";
+	}
+	let strArray = str.split(''); // array
+	let beginningConsonant = str.match(regex).join(); // string
+	strArray.splice(0, beginningConsonant.length)
+	return strArray.join('').concat(beginningConsonant + "ay");
+}
+
+console.log(`Glove: ${translatePigLatin("lqwdf")}` );
 
 
