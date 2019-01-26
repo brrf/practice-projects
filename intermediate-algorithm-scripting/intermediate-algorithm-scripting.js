@@ -113,5 +113,123 @@ function uniteUnique(...arr) {
   return filteredArray
 }
 
-console.log( uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]) );
+function convertHTML(str) {
+  let returnArray = [];
+  let strArray = str.split('');
+  for (let i = 0; i < strArray.length; i++) {
+  	switch (strArray[i]) {
+  		case '&': returnArray.push("&amp;");
+  			break;
+  		case '<': returnArray.push("&lt;");
+  			break;
+  		case '>': returnArray.push("&gt;");
+  			break;
+  		case '"': returnArray.push("&quot;");
+  			break;
+  		case "'": returnArray.push("&apos;");
+  			break;
+  		default:  returnArray.push(strArray[i]);
+  	}
+  }
+ 	returnArray = returnArray.join('');
+ 	return returnArray;
+}
+
+// function sumFibs(num) {
+// 	let fibs = [1, 1];
+// 	if (num === 1) return 1;
+// 	else if (num === 2) return 2;
+//  	else {
+//  		 while(( = arrFib[0] + arrFib[1]) <= num) {
+//         arrFib.unshift(nextFib);
+//     }
+// 		}
+// 	return fibs.filter( value => value % 2 === 1).reduce( (a,b) => a + b);
+// 	}
+// }
+
+
+// console.log(sumFibs(4000000));
+
+function sumFibs(num) {
+	let fibArray = [1, 1];
+	if (num === 1) return 1;
+	if (num === 2) return 2;
+	let currentNum = 0
+
+	while ( (currentNum = fibArray[0] + fibArray[1]) <= num) {
+		fibArray.unshift(currentNum);
+	}
+
+	return fibArray.filter( value => value % 2 === 1).reduce( (a,b) => a + b);
+}
+
+function sumPrimes(num) {
+
+	function isPrime (num) {
+		for (let i = 2; i <= num; i++) {
+			if (num % i === 0 && num != i) return false;
+		}
+		return true;
+	}
+
+	let sum = 0;
+	for (let i = 2; i <= num; i++) {
+		if (isPrime(i)) {
+			sum += i;
+		}
+
+	}
+	return sum;
+}
+
+function commonMultiples (num) {
+	let arr = [];
+
+	for (let i = 2; i <= num; i++) {
+		if (num % i === 0) {
+			arr.push(i);
+			num /= i;
+			i--;
+		}
+	}
+	return arr;
+}
+
+function smallestCommons(arr) {
+
+	arr.sort( (a,b) => a - b );
+
+	let commonMultipleArr = [];
+
+	function iterateExistingPrimes (num) {
+	  	let remainder = num;
+	  	for (let i = 0; i < commonMultipleArr.length; i++) {
+	  		if (remainder % commonMultipleArr[i] === 0) {
+	  			remainder /= commonMultipleArr[i];
+	  		}
+	  	}
+	  	return addMissingPrimes(remainder);
+	 }
+
+	 function addMissingPrimes (remainder) {
+	 	while (remainder > 1) {
+	  		for (let i = 2; i <= remainder; i++) {
+	  			if (remainder % i === 0) {
+	  				commonMultipleArr.push(i);
+	  				remainder /= i;
+	  				i--;
+
+	  			}
+	  		}
+	  	}
+	 }
+
+	for (let i = arr[0]; i <= arr[1]; i++) {
+		iterateExistingPrimes(i);
+	}
+	 return commonMultipleArr.reduce( (a,b) => a * b );
+}
+
+  
 
