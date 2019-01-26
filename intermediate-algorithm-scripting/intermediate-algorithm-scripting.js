@@ -88,11 +88,9 @@ function pairElement(str) {
   					break;
   		case 'T': returnArray.push(['T', 'A']);
   					break;
-
   	}
   }
   return returnArray;
-
 }
 
 function fearNotLetter(str) {
@@ -103,4 +101,17 @@ function fearNotLetter(str) {
 	}
 }
 
-console.log(fearNotLetter("abce"));
+function uniteUnique(...arr) {
+  let filteredArray = [];
+  for (let i = 0; i < arr.length; i++) {
+  	for (let j = 0; j < arr[i].length; j++) {
+  		if ( !filteredArray.includes(arr[i][j]) ) {
+  			filteredArray.push(arr[i][j]);
+  		}
+  	}
+  }
+  return filteredArray
+}
+
+console.log( uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]) );
+
