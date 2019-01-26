@@ -65,6 +65,42 @@ function translatePigLatin(str) {
 	return strArray.join('').concat(beginningConsonant + "ay");
 }
 
-console.log(`Glove: ${translatePigLatin("lqwdf")}` );
+function myReplace(str, before, after) {
+   (before[0] == before[0].toUpperCase()) ? after = `${after[0].toUpperCase()}${after.slice(1)}` : after = `${after[0].toLowerCase()}${after.slice(1)}`;
 
+   let strArray = str.split(' ');
+   if (strArray.indexOf(before) > 0) {
+   	strArray.splice( strArray.indexOf(before), 1, after)
+   	return strArray.join(' ');
+   }
+}
 
+function pairElement(str) {
+  let returnArray = [];
+ 
+  for (let i = 0; i < str.length; i++ ) {
+  	switch (str[i]) {
+  		case 'G': returnArray.push(['G', 'C']);
+  					break;
+  		case 'C': returnArray.push(['C', 'G']);
+  					break;
+  		case 'A': returnArray.push(['A', 'T']);
+  					break;
+  		case 'T': returnArray.push(['T', 'A']);
+  					break;
+
+  	}
+  }
+  return returnArray;
+
+}
+
+function fearNotLetter(str) {
+	for (let i = 1; i < str.length; i++) {
+		if (str.charCodeAt(i) - str.charCodeAt(i-1) > 1) {
+			return String.fromCharCode(str.charCodeAt(i) -1);
+		}
+	}
+}
+
+console.log(fearNotLetter("abce"));
