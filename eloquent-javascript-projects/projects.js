@@ -1,9 +1,6 @@
 "use strict"
 
-
-/*
 // Looping a triangle
-
 function loopTriangle (j) {
 
 	let string = '#'
@@ -14,13 +11,8 @@ function loopTriangle (j) {
 	}
 }
 
-*/
-
-
-/*
 
 //FizzBuzz
-
 function fizzBuzz (j) {
 
 	for (let i = 0; i < j; i++) {
@@ -42,11 +34,8 @@ function fizzBuzz (j) {
 	}
 }
 
-*/
 
-/*
 //Chessboard
-
 function chessboard (width, height) {
 	let board = ''
 	let tiles = (width + 1) * height;
@@ -66,11 +55,9 @@ function chessboard (width, height) {
 	}
 	console.log(board);
 }
-*/
 
-/*
+
 //Minimum
-
 function min(value1, value2) {
 	if (value1 <= value2) {
 		return value1;
@@ -80,11 +67,8 @@ function min(value1, value2) {
 
 alert(min(5, 5));
 
-*/
 
-/*
 //Recursion
-
 function isEven(number) {
 	if (number === 0) {
 		return true;
@@ -94,13 +78,8 @@ function isEven(number) {
 	else return isEven(number - 2);
 };
 
-alert( isEven(75) );
-*/
-
 
 //Bean Counting
-
-/*
 function countChar (string, char) {
 	let count = 0
 	for(let i = 0; i < string.length; i++) {
@@ -110,4 +89,3 @@ function countChar (string, char) {
 	}
 	return count;
 }
-*/
