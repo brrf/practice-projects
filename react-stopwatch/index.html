@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Stopwatch</title>
+	
+</head>
+<body>
+	
+
+
+
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	<script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
+	<div id="root"></div>
+
+
+	<script type="text/babel"> 
+
+	class StopWatch extends React.Component {
+		state = {lapse: 0, running: false}
+
+		toggleTimer = () => {
+			const startTime = Date.now() - this.state.lapse;
+			this.setState(state => {
+				if (state.running) {
+					clearInterval(this.toggle)
+				} else {
+					this.toggle = setInterval( () => {
+						this.setState({lapse: Date.now() - startTime});
+					})
+				}	
+				return {running: !state.running};		
+			})
+			
+		}
+
+		resetTimer = () => {
+			clearInterval(this.toggle)
+			this.setState({lapse: 0, running: false})
+		}
+
+		render () {
+			const {lapse, running} = this.state
+			return (
+				<div>
+					<label>{lapse}ms</label>
+					<button onClick={this.toggleTimer.bind(this)}>{running ? 'Stop' : 'Start'}</button>
+					<button onClick={this.resetTimer.bind(this)}>Reset</button>
+				</div>
+			)
+		}
+	}		
+
+	const element = <StopWatch />
+
+
+	ReactDOM.render(
+		element,
+		document.getElementById('root')
+		)
+
+
+	</script>
+</body>
+</html>
