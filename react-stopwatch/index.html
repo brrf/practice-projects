@@ -10,9 +10,10 @@
 
 
 
-	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-	<script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
-	<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/babel-standalone@6/babel.js"></script>
+	<script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+	<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
 	<div id="root"></div>
 
 
@@ -48,18 +49,25 @@
 					<label>{lapse}ms</label>
 					<button onClick={this.toggleTimer.bind(this)}>{running ? 'Stop' : 'Start'}</button>
 					<button onClick={this.resetTimer.bind(this)}>Reset</button>
+					<div> Hello {this.props.firstName} {this.props.lastName} </div>
 				</div>
 			)
 		}
 	}		
 
+	StopWatch.propTypes = {
+		firstName: PropTypes.string,
+		lastName: PropTypes.string,
+	}
+
 	const element = <StopWatch />
 
 
 	ReactDOM.render(
-		element,
+		<StopWatch firstName={3} />,
 		document.getElementById('root')
 		)
+
 
 
 	</script>
