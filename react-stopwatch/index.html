@@ -51,6 +51,10 @@
 			this.setState({lapse: 0, running: false})
 		}
 
+		componentWillUnmount() {
+			clearInterval(this.toggle);
+		}
+
 		render () {
 			const {lapse, running} = this.state
 			return (
