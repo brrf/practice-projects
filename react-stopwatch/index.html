@@ -19,6 +19,15 @@
 
 	<script type="text/babel"> 
 
+	let buttonStyles = {
+		border: '1px solid #ccc',
+		background: '#fff',
+		fontSize: '2em',
+		padding: 15,
+		margin: 5,
+		width: 200,
+	}
+
 	class StopWatch extends React.Component {
 		state = {lapse: 0, running: false}
 
@@ -45,11 +54,16 @@
 		render () {
 			const {lapse, running} = this.state
 			return (
-				<div>
-					<label>{lapse}ms</label>
-					<button onClick={this.toggleTimer.bind(this)}>{running ? 'Stop' : 'Start'}</button>
-					<button onClick={this.resetTimer.bind(this)}>Reset</button>
-					<div> Hello {this.props.firstName} {this.props.lastName} </div>
+				<div style={{textAlign: 'center'}}>
+					<label 
+						style={{fontSize: '5em', display: 'block'}}>
+						{lapse}ms
+					</label>
+					<div>
+						<button style={buttonStyles} onClick={this.toggleTimer.bind(this)}>{running ? 'Stop' : 'Start'}</button>
+						<button style={buttonStyles} onClick={this.resetTimer.bind(this)}>Reset</button>
+					</div>
+
 				</div>
 			)
 		}
@@ -64,7 +78,7 @@
 
 
 	ReactDOM.render(
-		<StopWatch firstName={3} />,
+		<StopWatch />,
 		document.getElementById('root')
 		)
 
