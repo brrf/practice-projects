@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Stopwatch</title>
+	
+</head>
+<body>
+	
+
+
+
+	<script src="https://unpkg.com/babel-standalone@6/babel.js"></script>
+	<script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+	<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+	
+	<div id="root"></div>
+
+	<style>
+		
+		.listStyle {
+			color: crimson;
+		}
+	</style>
+
+	<script type="text/babel"> 
+
+
+	class NameForm extends React.Component {
+		state = {color0: 'red', color1: 'red', error: false}
+
+		// handleSubmit = event => {
+		// 	event.preventDefault();
+		// 	const value = event.target[0].value;
+		// 	const error = this.props.getErrorMessage(value);
+
+		// 	if (error) {
+		// 		alert(`error: ${error}`);
+		// 	} else {
+		// 		alert(`success: ${value}`);
+		// 	}
+		// }
+
+		checkError(event) {
+			const input = event.target.value;
+
+			if (input.length >= 8) {
+				this.setState({
+					color0: 'green'
+				})
+			}
+
+			if (input.length < 8) {
+				this.setState({
+					color0: 'crimson'
+				})
+			}
+
+			if (input.includes('s')) {
+				this.setState(
+					{color1: 'green'}
+			)}
+			if (!input.includes('s')) {
+				this.setState(
+					{color1: 'crimson'}
+			)}	
+			if (input.length < 8 || !input.includes('s')) {
+				this.setState({
+					error: false
+				})
+			}
+			if (input.length >= 8 && input.includes('s')) {
+				this.setState({
+					error: true
+				})
+			}
+			
+
+			}
+		
+
+		render() {
+			return (
+				<form onSubmit={this.handleSubmit}>
+					<label>
+						Password:
+						<input type="text" onChange={this.checkError.bind(this)}/>
+					</label>
+					<button disabled={!this.state.error} type="submit">Submit</button>
+					<ul>
+						<li style={{color: this.state.color0}}>Must be 8 letters long</li>
+						<li style={{color: this.state.color1}}>Must contain an "s"</li>
+					</ul>
+				</form>
+			)
+		}
+	}
+
+
+	const element = <NameForm/>
+
+	ReactDOM.render (
+		element, document.getElementById('root')
+		)
+
+
+
+
+	</script>
+
+</body>
+
+</html>
