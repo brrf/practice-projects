@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Stopwatch</title>
+	
+</head>
+<body>
+	
+
+
+
+	<script src="https://unpkg.com/babel-standalone@6/babel.js"></script>
+	<script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+	<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+	
+	<div id="root"></div>
+
+
+	<script type="text/babel"> 
+
+	const availableOptions = [
+		'apple',
+		'grape',
+		'cherry',
+		'orange',
+		'pear',
+		'peach',
+	];
+	
+
+
+	class Form extends React.Component {
+		render() {
+			return (
+				<div>
+					<div>comma separated values:</div>
+					<input type="text"/>
+
+					<div>multiline values:</div>
+					<textarea />
+
+					<div>multiSelect values:</div>
+					<select multiple size={availableOptions.length}>
+						<option>apple</option>
+						<option>grape</option>
+						<option>cherry</option>
+						<option>orange</option>
+						<option>pear</option>
+						<option>peach</option>
+					</select>
+						
+				</div>
+				)
+		}
+	}
+
+	const element = <Form />
+
+	ReactDOM.render(
+		element, document.getElementById('root'))
+
+
+	</script>
