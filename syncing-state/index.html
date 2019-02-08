@@ -17,42 +17,98 @@
 	
 	<div id="root"></div>
 
-
-	<script type="text/babel"> 
-
-	const availableOptions = [
-		'apple',
-		'grape',
-		'cherry',
-		'orange',
-		'pear',
-		'peach',
-	];
 	
 
 
+	<script type="text/babel"> 
+
+		const availableOptions = [
+		'Nikhil',
+		'Shanna',
+		'Moshe',
+		'Grace',
+		'Mike',
+		]
+
+
 	class Form extends React.Component {
+
+	
+
+		state = {separated: '', multiline: '', multiSelect: []}
+
+		handleSeparatedValues (event) {
+			const {value} = event.target
+			const allVals = value
+				.split(',')
+				.map(s => s.trim())
+				.filter(Boolean)
+	
+			this.setState({
+				separated: value,
+				multiline: 	allVals.join('\n'),
+				multiSelect: allVals.filter(str => availableOptions.includes(str))
+			})
+		}
+
+		handleMultilineValues (event) {
+			const {value} = event.target
+			const allVals = value
+				.split('\n')
+				.map(s => s.trim())
+				.filter(Boolean)
+
+			this.setState({
+				separated: allVals.join(','),
+				multiline: value,
+				multiSelect: allVals.filter(str => availableOptions.includes(str))
+			})
+		}
+
+		handleMultiSelectValues (event) {
+			const allVals = Array.from(event.target.selectedOptions).map(obj => obj.value)
+
+			this.setState({
+				separated: allVals.join(','),
+				multiline: allVals.join('\n'),
+				multiSelect: allVals
+			})
+		}
+
 		render() {
+			const {separated, multiline, multiSelect} = this.state;
 			return (
 				<div>
 					<div>comma separated values:</div>
-					<input type="text"/>
+					<input value={separated} onChange={this.handleSeparatedValues.bind(this)} type="text"/>
 
 					<div>multiline values:</div>
-					<textarea />
+					<textarea value={multiline} onChange={this.handleMultilineValues.bind(this)} />
+					
 
 					<div>multiSelect values:</div>
-					<select multiple size={availableOptions.length}>
-						<option>apple</option>
-						<option>grape</option>
-						<option>cherry</option>
-						<option>orange</option>
-						<option>pear</option>
-						<option>peach</option>
+					<select 
+						multiple 
+						size={availableOptions.length}
+						value={multiSelect}
+						onChange={this.handleMultiSelectValues.bind(this)}
+					>
+						{availableOptions.map(
+							optionValue => (
+								<option
+									key={optionValue}
+									value={optionValue}
+								>
+									{optionValue}
+								</option>
+							)
+						)}
 					</select>
+
+					<div style={{fontSize: 40}}>Number of Residents: {this.state.multiSelect.length} </div>
 						
 				</div>
-				)
+			)
 		}
 	}
 
