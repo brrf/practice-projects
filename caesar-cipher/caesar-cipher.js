@@ -16,5 +16,3 @@ function rot13(str) {
 	}
 	return cipherArray.join('');
 }
-
-console.log(rot13("SERR PBQR PNZC"));

@@ -28,6 +28,7 @@
 		width: 200,
 	}
 
+
 	class StopWatch extends React.Component {
 		state = {lapse: 0, running: false}
 
@@ -78,16 +79,19 @@
 		lastName: PropTypes.string,
 	}
 
+
 	const element = <StopWatch />
 
 
+
 	ReactDOM.render(
-		<StopWatch />,
+		element,
 		document.getElementById('root')
 		)
 
 
 
 	</script>
+
 </body>
 </html>
