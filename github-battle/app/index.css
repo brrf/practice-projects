@@ -6,15 +6,43 @@ ul {
 	padding: 0;
 }
 
+li {
+	list-style: none;
+}
+
 .languageList {
 	display: flex;
 	justify-content: center;
-
+	font-size: 30px;
 }
 
 .languageList li {
-	list-style: none;
 	margin: 10px;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+.popular-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.popular-item {
+	margin: 20px;
+	text-align: center;
+}
+
+.popular-rank {
+	font-size: 20px;
+	margin: 10px;
+}
+
+.space-list-items {
+	margin-bottom: 7px
+}
+
+.avatar {
+	width: 100px;
+	border-radius: 50%;
 }
