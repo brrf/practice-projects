@@ -1,5 +1,5 @@
-var React = require ('react');
-var NavLink = require('react-router-DOM').NavLink;
+var React = require ('React');
+var NavLink = require('React-router-DOM').NavLink;
 
 
 function Nav () {

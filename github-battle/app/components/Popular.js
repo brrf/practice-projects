@@ -1,5 +1,5 @@
-var React = require('react');
-var api = require('../utils/api')
+var React = require('React');
+var api = require('../utils/Api')
 var PropTypes = require('prop-types')
 
 function SelectLanguage (props) {
