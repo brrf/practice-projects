@@ -3,6 +3,7 @@ var queryString = require('query-string');
 var api = require('../utils/api');
 var Link = require('react-router-dom').Link;
 var PlayerPreview = require('./PlayerPreview')
+var PropTypes = require('prop-types');
 
 function Contestant(props) {
 
@@ -10,23 +11,28 @@ function Contestant(props) {
 
 	return (
 		<div className='column'>
-			<h3 className='header'>{props.label}</h3>
-			<h4>Score: {props.result.score}</h4>
+			<h1 className='header'>{props.label}</h1>
+			<h3 style={{textAlign: 'center'}}>Score: {props.result.score}</h3>
 			<PlayerPreview
-				image={`https://github.com/${profile.login}.png?size=200`}
-				username={profile.name}>
-				<div>
-					<p>{profile.name}</p>
-					<p>{profile.location}</p>
-					<p>{profile.bio}</p>
-					<p>Followers: {profile.followers}</p>
-					<p>Following: {profile.following}</p>
-					<p>Public Repos: {profile.public_repos}</p>
-					<p><a href={profile.blog}>{profile.blog}</a></p>
-				</div>
+				image={profile.avatar_url}
+				username={profile.login}>
+				<ul className='space-list-items'>
+					{profile.name && <li>{profile.name}</li>}
+					{profile.location && <li>{profile.location}</li>}
+					{profile.company && <li>{profile.company}</li>}
+					<li>Followers: {profile.followers}</li>
+					<li>Following: {profile.following}</li>
+					<li>Public Repos: {profile.public_repos}</li>
+					{profile.blog && <li><a href={profile.blog} style={{margin: 0}}>{profile.blog}</a></li>}
+				</ul>
 			</PlayerPreview>
 		</div>
 	)
+}
+
+Contestant.propTypes = {
+	result: PropTypes.object.isRequired,
+	label: PropTypes.string.isRequired
 }
 
 class Results extends React.Component {
