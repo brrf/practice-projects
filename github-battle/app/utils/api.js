@@ -39,10 +39,7 @@ function getUserData (player) {
 		getProfile(player),
 		getRepos(player)
 	])
-	.then(function(response) {
-		const profile = response[0];
-		const repos = response[1];
-
+	.then(function([profile, repos]) {
 		return {
 			profile: profile,
 			score: calculateScore(profile, repos)
