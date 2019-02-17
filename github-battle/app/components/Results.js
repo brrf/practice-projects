@@ -4,6 +4,7 @@ var api = require('../utils/api');
 var Link = require('react-router-dom').Link;
 var PlayerPreview = require('./PlayerPreview')
 var PropTypes = require('prop-types');
+var Loading = require('./Loading');
 
 function Contestant(props) {
 
@@ -75,7 +76,7 @@ class Results extends React.Component {
 		console.log(winner)
 
 		if (this.state.loading === true) {
-			return <p>Loading...</p>
+			return <Loading />
 		}
 
 		if (this.state.error) {
