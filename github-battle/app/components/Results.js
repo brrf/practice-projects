@@ -1,19 +1,19 @@
-var React = require('React');
-var queryString = require('query-string');
-var api = require('../utils/api');
-var Link = require('react-router-dom').Link;
-var PlayerPreview = require('./PlayerPreview')
-var PropTypes = require('prop-types');
-var Loading = require('./Loading');
+import React from 'react';
+import queryString from 'query-string';
+import {battle} from '../utils/Api';
+import {Link} from 'react-router-dom';
+import PlayerPreview from './PlayerPreview';
+import PropTypes from 'prop-types';
+import Loading from './Loading';
 
-function Contestant(props) {
+function Contestant({result, label}) {
 
-	let profile = props.result.profile;
+	const profile = result.profile;
 
 	return (
 		<div className='column'>
-			<h1 className='header'>{props.label}</h1>
-			<h3 style={{textAlign: 'center'}}>Score: {props.result.score}</h3>
+			<h1 className='header'>{label}</h1>
+			<h3 style={{textAlign: 'center'}}>Score: {result.score}</h3>
 			<PlayerPreview
 				image={profile.avatar_url}
 				username={profile.login}>
@@ -49,40 +49,39 @@ class Results extends React.Component {
 	}
 
 	componentDidMount () {
-		var players = queryString.parse(this.props.location.search);
-		api.battle([
-			players.playerOneName, 
-			players.playerTwoName])
-		.then(function(results) {
+		const { playerOneName, playerTwoName} = queryString.parse(this.props.location.search);
+		
+		battle([
+			playerOneName, 
+			playerTwoName
+		])
+		.then( results => {
 			if (results === null) {
-				this.setState({
-					error: 'an error has occured!',
+				return this.setState( () => ({
+					error: 'An error has occured! Please check: github user may not exist.',
 					loading: false
-				})
-			}	
+				}))
+			}
 
-			this.setState({
+			this.setState( () => ({
 				winner: results[0],
 				loser: results[1],
 				loading: false,
-			})
-		}.bind(this));
+			}))
+		});
 	}
 
 	render () {
+		const {winner, loser, error, loading} = this.state;
 
-		let winner = this.state.winner;
-		let loser = this.state.loser;
-		console.log(winner)
-
-		if (this.state.loading === true) {
+		if (loading === true) {
 			return <Loading />
 		}
 
-		if (this.state.error) {
+		if (error) {
 			return (
 				<div>
-					<p>{this.state.error}</p>
+					<p>{error}</p>
 					<Link to='/battle'>Reset</Link>
 				</div>
 			)
@@ -99,4 +98,4 @@ class Results extends React.Component {
 	}
 }
 
-module.exports = Results;
+export default Results;
