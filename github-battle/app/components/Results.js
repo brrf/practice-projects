@@ -37,38 +37,33 @@ Contestant.propTypes = {
 }
 
 class Results extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			winner: null,
-			loser: null,
-			error: null,
-			loading: true
-		}
+	state = {
+		winner: null,
+		loser: null,
+		error: null,
+		loading: true
 	}
 
-	componentDidMount () {
+	async componentDidMount () {
 		const { playerOneName, playerTwoName} = queryString.parse(this.props.location.search);
 		
-		battle([
+		const results = await battle([
 			playerOneName, 
 			playerTwoName
 		])
-		.then( results => {
-			if (results === null) {
-				return this.setState( () => ({
-					error: 'An error has occured! Please check: github user may not exist.',
-					loading: false
-				}))
-			}
 
-			this.setState( () => ({
-				winner: results[0],
-				loser: results[1],
-				loading: false,
+		if (results === null) {
+			return this.setState( () => ({
+				error: 'An error has occured! Please check: github user may not exist.',
+				loading: false
 			}))
-		});
+		}
+
+		this.setState( () => ({
+			winner: results[0],
+			loser: results[1],
+			loading: false,
+		}));
 	}
 
 	render () {
