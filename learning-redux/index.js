@@ -1,20 +1,20 @@
 
-{
-	type: 'ADD_TODO',
-	todo: {
-		index: 0,
-		name: 'Learn Redux',
-		completed: false
+function todos (state = [], action) {
+
+	switch (action.type) {
+		case 'ADD_TODO' :
+			return state.concat([action.todo]);
+		case 'REMOVE_TODO' :
+			return state.filter( todo => todo.index !== action.index );	
+		case 'TOGGLE_TODO' :
+			return state.map( todo => todo.index !== action.index ? todo : {
+				index: todo.index,
+				name: todo.name,
+				completed: !todo.completed
+			})
+		default: return state
 	}
 }
-
-function todos (state = [], action) {
-	if (action.type === 'ADD_TODO') {
-		return state.concat([action.todo])
-	};
-}
-
-
 
 function createStore (reducer) {
 
@@ -40,13 +40,12 @@ function createStore (reducer) {
 	return {
 		getState,
 		subscribe,
-		dispatch,
-		listeners
+		dispatch
 	}
 }
 
 const store = createStore(todos);
-const unsubscribe = store.subscribe ( () => console.log(`the state has been updated`));
+const unsubscribe = store.subscribe ( () => console.log('the state is:', store.getState()));
 
 store.dispatch ({
 	type: 'ADD_TODO',
@@ -56,5 +55,4 @@ store.dispatch ({
 		completed: false
 	}
 });
-
 
