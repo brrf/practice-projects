@@ -1,40 +1,10 @@
 
-alert('it is working');
-
-function todos (state = [], action) {
-
-	switch (action.type) {
-		case 'ADD_TODO' :
-			return state.concat([action.todo]);
-		case 'REMOVE_TODO' :
-			return state.filter( todo => todo.index !== action.index );	
-		case 'TOGGLE_TODO' :
-			return state.map( todo => todo.index !== action.index ? todo : {
-				index: todo.index,
-				name: todo.name,
-				completed: !todo.completed
-			})
-		default: return state
-	}
+//generate unique ID for actions
+function generateId () {
+  return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
 }
 
-function goals (state = [], action) {
-
-	switch (action.type) {
-		case 'ADD_GOAL' :
-			return state.concat([action.goal]);
-		case 'REMOVE_GOAL' :
-			return state.filter( goal => goal.index !== action.index)
-	}
-}
-
-function app (state = {}, action) {
-	return {
-		todos: todos(state.todos, action),
-		goals: goals(state.goals, action)
-	}
-}
-
+//store/container
 function createStore (reducer) {
 
 	let state;
@@ -55,7 +25,6 @@ function createStore (reducer) {
 	    	listeners[i]();
 	    }
   	}
-
 	return {
 		getState,
 		subscribe,
@@ -63,24 +32,79 @@ function createStore (reducer) {
 	}
 }
 
+//reducer components and combined reducer function
+function todos (state = [], action) {
+	switch (action.type) {
+		case 'ADD_TODO' :
+			return state.concat([action.todo]);
+		case 'REMOVE_TODO' :
+			return state.filter( todo => todo.index !== action.index );	
+		case 'TOGGLE_TODO' :
+			return state.map( todo => todo.index !== action.index ? todo : {
+				index: todo.index,
+				name: todo.name,
+				completed: !todo.completed
+			})
+		default: return state
+	}
+}
+
+function goals (state = [], action) {
+	switch (action.type) {
+		case 'ADD_GOAL' :
+			return state.concat([action.goal]);
+		case 'REMOVE_GOAL' :
+			return state.filter( goal => goal.index !== action.index)
+	}
+}
+
+function app (state = {}, action) {
+	return {
+		todos: todos(state.todos, action),
+		goals: goals(state.goals, action)
+	}
+}
+
+//initiate store
 const store = createStore(app);
 const unsubscribe = store.subscribe ( () => console.log('the state is:', store.getState()));
 
-store.dispatch ({
-	type: 'ADD_TODO',
-	todo: {
-		index: 0,
-		name: 'Learn Redux',
-		completed: false
-	}
-});
+//Update DOM with state
 
-store.dispatch ({
-	type: 'ADD_GOAL',
-	goal: {
-		index: 0,
-		name: 'Lose 100lbs',
-		completed: false
-	}
-});
+function addToDo () {
+	const input = document.getElementById('todo');
+	const todo = input.value;
+	input.value = '';
+
+	store.dispatch({
+		type: 'ADD_TODO',
+		todo: {
+			index: generateId(),
+			name: todo,
+			completed: false
+	}})
+}
+
+function addGoal () {
+	const input = document.getElementById('goal');
+	const goal = input.value;
+	input.value = '';
+
+	store.dispatch({
+		type: 'ADD_GOAL',
+		goal: {
+			index: generateId(),
+			name: goal,
+			completed: false
+	}})
+}
+
+document.getElementById('todoBtn').
+	addEventListener('click', addToDo)
+
+document.getElementById('goalBtn').
+	addEventListener('click', addGoal)
+
+
+
 
