@@ -66,11 +66,27 @@ function removeGoalAction (index) {
 	}
 }
 
+//middleware
+
+const checker = (store) => (next) => (action) => {
+	if (action.type === "ADD_TODO" &&
+		action.todo.name.toLowerCase().indexOf('tron') !== -1
+	) {
+		alert('That is a terrible idea');
+	}
+	if (action.type === "ADD_GOAL" &&
+		action.todo.name.toLowerCase().indexOf('tron') !== -1
+	) {
+		alert('That is a terrible idea');
+	}
+	return next(action)
+}
+
 //initiate store
 const store = Redux.createStore(Redux.combineReducers({
 	todos,
 	goals
-}));
+}), Redux.applyMiddleware(checker));
 
 //Update DOM with state
 
