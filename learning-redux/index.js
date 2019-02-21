@@ -106,6 +106,14 @@ const store = createStore(app);
 
 //Update DOM with state
 
+function createRemoveButton (removeItemFunc) {
+	const removeBtn = document.createElement('button');
+	removeBtn.innerHTML = 'X';
+	removeBtn.addEventListener('click', removeItemFunc);
+
+	return removeBtn;
+}
+
 const unsubscribe = store.subscribe ( () => {
 	const {todos, goals} = store.getState();
 
@@ -114,16 +122,19 @@ const unsubscribe = store.subscribe ( () => {
 	
 	todos.forEach(addTodoToDOM)
 	goals.forEach(addGoalToDOM)
-
-
-
 });
-
 
 function addTodoToDOM(todo) {
 	const newLi = document.createElement('LI');
 	const LiText = todo.name;	
 	newLi.innerHTML = LiText;
+
+
+	const removeButton = createRemoveButton ( () => {
+		store.dispatch(removeTodoAction(todo.index))
+	})
+
+	newLi.appendChild(removeButton);
 
 	newLi.style.textDecoration = todo.completed ? 'line-through' : 'none'
 	newLi.addEventListener('click', () => {
@@ -139,10 +150,15 @@ function addGoalToDOM(goal) {
 	const LiText = goal.name;	
 	newLi.innerHTML = LiText;
 
+	const removeButton = createRemoveButton ( () => {
+		store.dispatch(removeGoalAction(goal.index))
+	})
+
+	newLi.appendChild(removeButton);
+
 	const goals = document.getElementById('goals')
 		.appendChild(newLi);
 }
-
 
 function addToDo () {
 	const input = document.getElementById('todo');
@@ -174,5 +190,3 @@ document.getElementById('todoBtn').
 
 document.getElementById('goalBtn').
 	addEventListener('click', addGoal)
-
-
