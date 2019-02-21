@@ -4,35 +4,7 @@ function generateId () {
   return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
 }
 
-//store container
-function createStore (reducer) {
-
-	let state;
-	let listeners = [];
-
-	const getState = () => state;
-
-	const subscribe = (listener) => {
-		listeners.push(listener);
-		return ( () => {
-			listeners = listeners.filter(l => l !== listener)
-		});
-	}
-
-	const dispatch = (action) => {
-	    state = reducer(state, action)
-	    for (let i = 0; i < listeners.length; i++) {
-	    	listeners.forEach((listener => listener()))
-	    }
-  	}
-	return {
-		getState,
-		subscribe,
-		dispatch
-	}
-}
-
-//reducer components and combined reducer function
+//reducers
 function todos (state = [], action) {
 	switch (action.type) {
 		case 'ADD_TODO' :
@@ -54,13 +26,6 @@ function goals (state = [], action) {
 		case 'REMOVE_GOAL' :
 			return state.filter( goal => goal.index !== action.index);
 		default: return state
-	}
-}
-
-function app (state = {}, action) {
-	return {
-		todos: todos(state.todos, action),
-		goals: goals(state.goals, action)
 	}
 }
 
@@ -102,7 +67,10 @@ function removeGoalAction (index) {
 }
 
 //initiate store
-const store = createStore(app);
+const store = Redux.createStore(Redux.combineReducers({
+	todos,
+	goals
+}));
 
 //Update DOM with state
 
