@@ -4,7 +4,7 @@ function generateId () {
   return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
 }
 
-//store/container
+//store container
 function createStore (reducer) {
 
 	let state;
@@ -22,7 +22,7 @@ function createStore (reducer) {
 	const dispatch = (action) => {
 	    state = reducer(state, action)
 	    for (let i = 0; i < listeners.length; i++) {
-	    	listeners[i]();
+	    	listeners.forEach((listener => listener()))
 	    }
   	}
 	return {
@@ -40,11 +40,9 @@ function todos (state = [], action) {
 		case 'REMOVE_TODO' :
 			return state.filter( todo => todo.index !== action.index );	
 		case 'TOGGLE_TODO' :
-			return state.map( todo => todo.index !== action.index ? todo : {
-				index: todo.index,
-				name: todo.name,
-				completed: !todo.completed
-			})
+			return state.map( todo => todo.index !== action.index ? todo : 
+				Object.assign({}, todo, {completed: !todo.completed})
+			)
 		default: return state
 	}
 }
@@ -54,7 +52,8 @@ function goals (state = [], action) {
 		case 'ADD_GOAL' :
 			return state.concat([action.goal]);
 		case 'REMOVE_GOAL' :
-			return state.filter( goal => goal.index !== action.index)
+			return state.filter( goal => goal.index !== action.index);
+		default: return state
 	}
 }
 
@@ -65,24 +64,97 @@ function app (state = {}, action) {
 	}
 }
 
+//Action functions
+
+function addTodoAction (todo) {
+	return {
+		type: 'ADD_TODO',
+		todo
+	}
+}
+
+function removeTodoAction (index) {
+	return {
+		type: 'REMOVE_TODO',
+		index
+	}
+}
+
+function toggleTodoAction (index) {
+	return {
+		type: 'TOGGLE_TODO',
+		index
+	}
+}
+
+function addGoalAction (goal) {
+	return {
+		type: 'ADD_GOAL',
+		goal
+	}
+}
+
+function removeGoalAction (index) {
+	return {
+		type: 'REMOVE_GOAL',
+		index
+	}
+}
+
 //initiate store
 const store = createStore(app);
-const unsubscribe = store.subscribe ( () => console.log('the state is:', store.getState()));
 
 //Update DOM with state
+
+const unsubscribe = store.subscribe ( () => {
+	const {todos, goals} = store.getState();
+
+	document.getElementById('todos').innerHTML = '';
+	document.getElementById('goals').innerHTML = ''
+	
+	todos.forEach(addTodoToDOM)
+	goals.forEach(addGoalToDOM)
+
+
+
+});
+
+
+function addTodoToDOM(todo) {
+	const newLi = document.createElement('LI');
+	const LiText = todo.name;	
+	newLi.innerHTML = LiText;
+
+	newLi.style.textDecoration = todo.completed ? 'line-through' : 'none'
+	newLi.addEventListener('click', () => {
+		store.dispatch(toggleTodoAction(todo.index))
+		});
+
+	document.getElementById('todos')
+		.appendChild(newLi);
+}
+
+function addGoalToDOM(goal) {
+	const newLi = document.createElement('LI');
+	const LiText = goal.name;	
+	newLi.innerHTML = LiText;
+
+	const goals = document.getElementById('goals')
+		.appendChild(newLi);
+}
+
 
 function addToDo () {
 	const input = document.getElementById('todo');
 	const todo = input.value;
+	
 	input.value = '';
 
-	store.dispatch({
-		type: 'ADD_TODO',
-		todo: {
-			index: generateId(),
-			name: todo,
-			completed: false
-	}})
+	store.dispatch(addTodoAction({
+		index: generateId(),
+		name: todo,
+		completed: false
+	}));
 }
 
 function addGoal () {
@@ -90,13 +162,11 @@ function addGoal () {
 	const goal = input.value;
 	input.value = '';
 
-	store.dispatch({
-		type: 'ADD_GOAL',
-		goal: {
-			index: generateId(),
-			name: goal,
-			completed: false
-	}})
+	store.dispatch(addGoalAction({
+		index: generateId(),
+		name: goal,
+		completed: false
+	}));
 }
 
 document.getElementById('todoBtn').
@@ -104,7 +174,5 @@ document.getElementById('todoBtn').
 
 document.getElementById('goalBtn').
 	addEventListener('click', addGoal)
-
-
 
 
