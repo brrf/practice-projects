@@ -60,6 +60,26 @@
 
 		//Action functions
 
+		function handleInitialData (store) {
+			return (dispatch) => {
+				Promise.all([
+				  API.fetchTodos(),
+				  API.fetchGoals()
+				]).then( ([todos, goals]) => {
+					dispatch(receiveDataAction(todos, goals))
+				})
+			}
+		}
+
+		function receiveDataAction (todos, goals) {
+			return {
+				type: 'RECEIVE_DATA',
+				todos,
+				goals
+
+			}
+		}
+
 		function handleAddTodo (value, func) {
 			return (dispatch) => {
 				return API.saveTodo(value)
@@ -150,15 +170,6 @@
 			return {
 				type: 'REMOVE_GOAL',
 				id
-			}
-		}
-
-		function receiveDataAction (todos, goals) {
-			return {
-				type: 'RECEIVE_DATA',
-				todos,
-				goals
-
 			}
 		}
 
@@ -328,15 +339,7 @@
 		class App extends React.Component {
 
 			componentDidMount () {
-
-				const {store} = this.props;
-
-				Promise.all([
-				  API.fetchTodos(),
-				  API.fetchGoals()
-				]).then( ([todos, goals]) => {
-					store.dispatch(receiveDataAction(todos, goals))
-				})
+				this.props.store.dispatch(handleInitialData(this.props.store))
 
 				store.subscribe( () => this.forceUpdate() )
 			}
