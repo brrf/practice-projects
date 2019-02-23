@@ -224,12 +224,22 @@ document.getElementById('goalBtn').
 	<script type='text/babel'> 
 
 
-		function List () {
+		function List (props) {
+
 			return (
 				<ul>
-					<li>One</li>
+					{props.items.map( item => (
+						<li key={item.index}>
+							<span onClick={ () => props.toggleItem && props.toggleItem(item)}
+								  style={item.completed ? {textDecoration: 'line-through'} : {textDecoration: 'none'}} >
+								{item.name}
+							</span>
+							<button onClick={ () => props.removeItem(item)}>X</button>
+						</li>
+
+					))}
 				</ul>
-				)
+			)
 		}
 
 
@@ -249,6 +259,14 @@ document.getElementById('goalBtn').
 
 			}
 
+			removeItem = item => {
+				this.props.store.dispatch(removeTodoAction(item.index));
+			}
+
+			toggleItem = item => {
+				this.props.store.dispatch(toggleTodoAction(item.index))
+			}
+
 			render () {
 				return (
 					<div>
@@ -261,7 +279,9 @@ document.getElementById('goalBtn').
 						<button onClick={this.addItem}>
 							Add ToDo
 						</button>
-
+						<List items={this.props.todos}
+							  removeItem = {this.removeItem}
+							  toggleItem={this.toggleItem}/>
 					</div>
 				)
 			}
@@ -280,6 +300,10 @@ document.getElementById('goalBtn').
 				}))
 			}
 
+			removeItem = item => {
+				this.props.store.dispatch(removeGoalAction(item.index));
+			}
+
 			render () {
 				return (
 					<div>
@@ -292,17 +316,29 @@ document.getElementById('goalBtn').
 						<button onClick={this.addItem}>
 							Add Goal
 						</button>
+						<List items={this.props.goals}
+							  removeItem={this.removeItem}/>
 					</div>
 				)
 			}
 		}
 
 		class App extends React.Component {
+
+			componentDidMount () {
+
+				const {store} = this.props
+
+				store.subscribe( () => this.forceUpdate() )
+			}
+
 			render() {
+
+				const {todos, goals} = this.props.store.getState()
 				return (
 					<div>
-						<Todos store={this.props.store}/>
-						<Goals store={this.props.store}/>
+						<Todos todos={todos} store={this.props.store}/>
+						<Goals goals={goals} store={this.props.store}/>
 					</div>
 				)
 			}
