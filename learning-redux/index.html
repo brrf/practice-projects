@@ -12,6 +12,7 @@
 	<script src='https://unpkg.com/react-dom@16.8.3/umd/react-dom.development.js'></script>
 	<script src='https://unpkg.com/babel-standalone@6.15.0/babel.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
+	<script src='https://tylermcginnis.com/goals-todos-api/index.js'></script>
 	<script type='text/babel'>
 
 		//generate unique ID for actions
@@ -25,11 +26,14 @@
 				case 'ADD_TODO' :
 					return state.concat([action.todo]);
 				case 'REMOVE_TODO' :
-					return state.filter( todo => todo.index !== action.index );	
+					return state.filter( todo => todo.id !== action.id );	
 				case 'TOGGLE_TODO' :
-					return state.map( todo => todo.index !== action.index ? todo : 
+					return state.map( todo => todo.id !== action.id ? todo : 
 						Object.assign({}, todo, {completed: !todo.completed})
 					)
+				case 'RECEIVE_DATA': 
+					return action.todos
+
 				default: return state
 			}
 		}
@@ -39,8 +43,18 @@
 				case 'ADD_GOAL' :
 					return state.concat([action.goal]);
 				case 'REMOVE_GOAL' :
-					return state.filter( goal => goal.index !== action.index);
+					return state.filter( goal => goal.id !== action.id);
+				case 'RECEIVE_DATA' :
+					return action.goals
 				default: return state
+			}
+		}
+
+		function loading (state = true, action) {
+			switch (action.type) {
+				case 'RECEIVE_DATA' :
+					return false
+				default: return state;
 			}
 		}
 
@@ -53,17 +67,17 @@
 			}
 		}
 
-		function removeTodoAction (index) {
+		function removeTodoAction (id) {
 			return {
 				type: 'REMOVE_TODO',
-				index
+				id
 			}
 		}
 
-		function toggleTodoAction (index) {
+		function toggleTodoAction (id) {
 			return {
 				type: 'TOGGLE_TODO',
-				index
+				id
 			}
 		}
 
@@ -74,10 +88,19 @@
 			}
 		}
 
-		function removeGoalAction (index) {
+		function removeGoalAction (id) {
 			return {
 				type: 'REMOVE_GOAL',
-				index
+				id
+			}
+		}
+
+		function receiveDataAction (todos, goals) {
+			return {
+				type: 'RECEIVE_DATA',
+				todos,
+				goals
+
 			}
 		}
 
@@ -85,12 +108,12 @@
 
 		const checker = (store) => (next) => (action) => {
 			if (action.type === "ADD_TODO" &&
-				action.todo.name.toLowerCase().indexOf('tron') !== -1
+				action.todo.name.toLowerCase().idOf('tron') !== -1
 			) {
 				alert('That is a terrible idea');
 			}
 			if (action.type === "ADD_GOAL" &&
-				action.goal.name.toLowerCase().indexOf('tron') !== -1
+				action.goal.name.toLowerCase().idOf('tron') !== -1
 			) {
 				alert('That is a terrible idea');
 			}
@@ -110,16 +133,50 @@
 		//initiate store
 		const store = Redux.createStore(Redux.combineReducers({
 			todos,
-			goals
+			goals,
+			loading
 		}), Redux.applyMiddleware(checker, logger));
 
 		//react components
+
+		class Loading extends React.Component {
+			constructor (props) {
+				super (props);
+
+				this.state = {text: 'Loading'}
+			}
+
+			componentDidMount () {
+				const stopper = 'Loading...'
+
+				this.counter = setInterval( () => {
+					this.state.text !== stopper 
+						? this.setState({
+						text: this.state.text + '.'
+						}) 
+						: this.setState({
+						text: 'Loading'
+						})
+				}, 200)
+			}
+
+			componentWillUnmount () {
+				clearInterval(this.counter)
+			}
+
+			render () {			
+				return (
+				<h3>{this.state.text}</h3>
+				)
+			}
+		}
+
 		function List (props) {
 
 			return (
 				<ul>
 					{props.items.map( item => (
-						<li key={item.index}>
+						<li key={item.id}>
 							<span onClick={ () => props.toggleItem && props.toggleItem(item)}
 								  style={item.completed ? {textDecoration: 'line-through'} : {textDecoration: 'none'}} >
 								{item.name}
@@ -140,7 +197,7 @@
 				this.input.value = '';
 
 				this.props.store.dispatch(addTodoAction({
-					index: generateId(),
+					id: generateId(),
 					name,
 					completed: false
 				}))
@@ -148,11 +205,11 @@
 			}
 
 			removeItem = item => {
-				this.props.store.dispatch(removeTodoAction(item.index));
+				this.props.store.dispatch(removeTodoAction(item.id));
 			}
 
 			toggleItem = item => {
-				this.props.store.dispatch(toggleTodoAction(item.index))
+				this.props.store.dispatch(toggleTodoAction(item.id))
 			}
 
 			render () {
@@ -183,13 +240,13 @@
 				this.input.value = '';
 
 				this.props.store.dispatch(addGoalAction({
-					index: generateId(),
+					id: generateId(),
 					name,
 				}))
 			}
 
 			removeItem = item => {
-				this.props.store.dispatch(removeGoalAction(item.index));
+				this.props.store.dispatch(removeGoalAction(item.id));
 			}
 
 			render () {
@@ -213,16 +270,30 @@
 
 		class App extends React.Component {
 
+			
+
 			componentDidMount () {
 
-				const {store} = this.props
+				const {store} = this.props;
+
+				Promise.all([
+				  API.fetchTodos(),
+				  API.fetchGoals()
+				]).then( ([todos, goals]) => {
+					store.dispatch(receiveDataAction(todos, goals))
+				})
 
 				store.subscribe( () => this.forceUpdate() )
 			}
 
 			render() {
 
-				const {todos, goals} = this.props.store.getState()
+				const {todos, goals, loading} = this.props.store.getState()
+
+				if (loading) {
+					return <Loading />
+				}
+
 				return (
 					<div>
 						<Todos todos={todos} store={this.props.store}/>
@@ -231,7 +302,6 @@
 				)
 			}
 		}
-
 
 		ReactDOM.render(
 		<App store={store}/>, 
