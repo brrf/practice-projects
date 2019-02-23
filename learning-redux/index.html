@@ -60,7 +60,7 @@
 
 		//Action functions
 
-		function handleInitialData (store) {
+		function handleInitialData () {
 			return (dispatch) => {
 				Promise.all([
 				  API.fetchTodos(),
@@ -339,7 +339,7 @@
 		class App extends React.Component {
 
 			componentDidMount () {
-				this.props.store.dispatch(handleInitialData(this.props.store))
+				this.props.store.dispatch(handleInitialData())
 
 				store.subscribe( () => this.forceUpdate() )
 			}
