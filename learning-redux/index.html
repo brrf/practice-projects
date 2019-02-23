@@ -60,10 +60,33 @@
 
 		//Action functions
 
+		function handleAddTodo (value, func) {
+			return (dispatch) => {
+				return API.saveTodo(value)
+					.then( (todo) => {
+						dispatch(addTodoAction(todo))
+						func()
+					})
+					.catch( () => alert('Oops. An error has occurred!'));
+			}
+		}
+
 		function addTodoAction (todo) {
 			return {
 				type: 'ADD_TODO',
 				todo
+			}
+		}
+
+		function handleDeleteTodo (todo) {
+			return (dispatch) => {
+				dispatch(removeTodoAction(todo.id));
+
+				API.deleteTodo(todo.id)
+				  .catch( () => {
+					dispatch(addTodoAction(todo));
+					alert('Oops. An error has occurred!');
+					})
 			}
 		}
 
@@ -74,6 +97,18 @@
 			}
 		}
 
+		function handleToggleTodo (todo) {
+			return (dispatch) => {
+				dispatch(toggleTodoAction(todo.id));
+
+				API.saveTodoToggle (todo.id)
+					.catch( () => {
+						dispatch(toggleTodoAction(todo.id));
+						alert('Oops. An error has occurred!');
+					})
+			}
+		}
+
 		function toggleTodoAction (id) {
 			return {
 				type: 'TOGGLE_TODO',
@@ -81,10 +116,33 @@
 			}
 		}
 
+		function handleAddGoal (value, func) {
+			return (dispatch) => {
+				return API.saveGoal(value)
+				.then( (goal) => {
+					dispatch(addGoalAction(goal))
+					func()
+				})
+				.catch( () => alert('Oops. An error has occurred!'));
+			}
+		}
+
 		function addGoalAction (goal) {
 			return {
 				type: 'ADD_GOAL',
 				goal
+			}
+		}
+
+		function handleDeleteGoal (goal) {
+			return (dispatch) => {
+				dispatch(removeGoalAction(goal.id))
+
+				API.deleteGoal(goal.id)
+					.catch( () => {
+						dispatch(addGoalAction(goal));
+						alert('Oops. An error has occurred!');
+					})
 			}
 		}
 
@@ -130,12 +188,19 @@
 			return result;
 		}
 
+		const thunk = (store) => (next) => (action) => {
+			if (typeof action === 'function') {
+				return action(store.dispatch)
+			}
+			return next(action);
+		}
+
 		//initiate store
 		const store = Redux.createStore(Redux.combineReducers({
 			todos,
 			goals,
 			loading
-		}), Redux.applyMiddleware(checker, logger));
+		}), Redux.applyMiddleware(thunk, checker, logger));
 
 		//react components
 
@@ -193,33 +258,18 @@
 
 			addItem = (e) => {
 				e.preventDefault();
-
-				API.saveTodo(this.input.value)
-					.then( (todo) => {
-						this.props.store.dispatch(addTodoAction(todo))
-						this.input.value = '';
-					})
-					.catch( () => alert('Oops. An error has occurred!'));
+				this.props.store.dispatch(handleAddTodo(
+					this.input.value,
+					() => this.input.value = '' 
+				))
 			}
 
-			removeItem = item => {
-				this.props.store.dispatch(removeTodoAction(item.id));
-
-				return API.deleteTodo(item.id)
-					.catch( () => {
-						this.props.store.dispatch(addTodoAction(item));
-						alert('Oops. An error has occurred!');
-					})
+			removeItem = todo => {
+				this.props.store.dispatch(handleDeleteTodo(todo));
 			}
 
-			toggleItem = item => {
-				this.props.store.dispatch(toggleTodoAction(item.id))
-
-				return API.saveTodoToggle (item.id)
-					.catch( () => {
-						this.props.store.dispatch(toggleTodoAction(item.id));
-						alert('Oops. An error has occurred!');
-					})
+			toggleItem = todo => {
+				this.props.store.dispatch(handleToggleTodo(todo))
 			}
 
 			render () {
@@ -246,23 +296,14 @@
 
 			addItem = (e) => {
 				e.preventDefault();
-				
-				return API.saveGoal(this.input.value)
-				.then( (goal) => {
-					this.props.store.dispatch(addGoalAction(goal))
-					this.input.value = '';
-				})
-				.catch( () => alert('Oops. An error has occurred!'));
+				this.props.store.dispatch(handleAddGoal(
+					this.input.value,
+					() => this.input.value = ''
+				))
 			}
 
 			removeItem = item => {
-				this.props.store.dispatch(removeGoalAction(item.id));
-
-				return API.deleteGoal(item.id)
-					.catch( () => {
-						this.props.store.dispatch(addGoalAction(item));
-						alert('Oops. An error has occurred!');
-					})
+				this.props.store.dispatch(handleDeleteGoal(item));
 			}
 
 			render () {
@@ -285,8 +326,6 @@
 		}
 
 		class App extends React.Component {
-
-			
 
 			componentDidMount () {
 
