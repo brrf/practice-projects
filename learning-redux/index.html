@@ -108,12 +108,12 @@
 
 		const checker = (store) => (next) => (action) => {
 			if (action.type === "ADD_TODO" &&
-				action.todo.name.toLowerCase().idOf('tron') !== -1
+				action.todo.name.toLowerCase().indexOf('tron') !== -1
 			) {
 				alert('That is a terrible idea');
 			}
 			if (action.type === "ADD_GOAL" &&
-				action.goal.name.toLowerCase().idOf('tron') !== -1
+				action.goal.name.toLowerCase().indexOf('tron') !== -1
 			) {
 				alert('That is a terrible idea');
 			}
@@ -193,23 +193,33 @@
 
 			addItem = (e) => {
 				e.preventDefault();
-				const name = this.input.value;
-				this.input.value = '';
 
-				this.props.store.dispatch(addTodoAction({
-					id: generateId(),
-					name,
-					completed: false
-				}))
-
+				API.saveTodo(this.input.value)
+					.then( (todo) => {
+						this.props.store.dispatch(addTodoAction(todo))
+						this.input.value = '';
+					})
+					.catch( () => alert('Oops. An error has occurred!'));
 			}
 
 			removeItem = item => {
 				this.props.store.dispatch(removeTodoAction(item.id));
+
+				return API.deleteTodo(item.id)
+					.catch( () => {
+						this.props.store.dispatch(addTodoAction(item));
+						alert('Oops. An error has occurred!');
+					})
 			}
 
 			toggleItem = item => {
 				this.props.store.dispatch(toggleTodoAction(item.id))
+
+				return API.saveTodoToggle (item.id)
+					.catch( () => {
+						this.props.store.dispatch(toggleTodoAction(item.id));
+						alert('Oops. An error has occurred!');
+					})
 			}
 
 			render () {
@@ -236,17 +246,23 @@
 
 			addItem = (e) => {
 				e.preventDefault();
-				const name = this.input.value;
-				this.input.value = '';
-
-				this.props.store.dispatch(addGoalAction({
-					id: generateId(),
-					name,
-				}))
+				
+				return API.saveGoal(this.input.value)
+				.then( (goal) => {
+					this.props.store.dispatch(addGoalAction(goal))
+					this.input.value = '';
+				})
+				.catch( () => alert('Oops. An error has occurred!'));
 			}
 
 			removeItem = item => {
 				this.props.store.dispatch(removeGoalAction(item.id));
+
+				return API.deleteGoal(item.id)
+					.catch( () => {
+						this.props.store.dispatch(addGoalAction(item));
+						alert('Oops. An error has occurred!');
+					})
 			}
 
 			render () {
