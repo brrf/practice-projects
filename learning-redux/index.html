@@ -13,6 +13,8 @@
 	<script src='https://unpkg.com/babel-standalone@6.15.0/babel.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
 	<script src='https://tylermcginnis.com/goals-todos-api/index.js'></script>
+	<script src='https://unpkg.com/redux-thunk@2.2.0/dist/redux-thunk.min.js'></script>
+	<script src='https://unpkg.com/react-redux@6.0.1/dist/react-redux.js'></script>
 	<script type='text/babel'>
 
 		//generate unique ID for actions
@@ -199,19 +201,12 @@
 			return result;
 		}
 
-		const thunk = (store) => (next) => (action) => {
-			if (typeof action === 'function') {
-				return action(store.dispatch)
-			}
-			return next(action);
-		}
-
 		//initiate store
 		const store = Redux.createStore(Redux.combineReducers({
 			todos,
 			goals,
 			loading
-		}), Redux.applyMiddleware(thunk, checker, logger));
+		}), Redux.applyMiddleware(ReduxThunk.default, checker, logger));
 
 		//react components
 
@@ -269,18 +264,18 @@
 
 			addItem = (e) => {
 				e.preventDefault();
-				this.props.store.dispatch(handleAddTodo(
+				this.props.dispatch(handleAddTodo(
 					this.input.value,
 					() => this.input.value = '' 
 				))
 			}
 
 			removeItem = todo => {
-				this.props.store.dispatch(handleDeleteTodo(todo));
+				this.props.dispatch(handleDeleteTodo(todo));
 			}
 
 			toggleItem = todo => {
-				this.props.store.dispatch(handleToggleTodo(todo))
+				this.props.dispatch(handleToggleTodo(todo))
 			}
 
 			render () {
@@ -303,18 +298,22 @@
 			}
 		}
 
+		const ConnectedTodos = ReactRedux.connect( (state) => ({
+			todos: state.todos
+		}))(Todos)
+
 		class Goals extends React.Component {
 
 			addItem = (e) => {
 				e.preventDefault();
-				this.props.store.dispatch(handleAddGoal(
+				this.props.dispatch(handleAddGoal(
 					this.input.value,
 					() => this.input.value = ''
 				))
 			}
 
 			removeItem = item => {
-				this.props.store.dispatch(handleDeleteGoal(item));
+				this.props.dispatch(handleDeleteGoal(item));
 			}
 
 			render () {
@@ -336,17 +335,19 @@
 			}
 		}
 
+		const ConnectedGoals = ReactRedux.connect( (state) => ({
+			goals: state.goals
+		}))(Goals)
+
 		class App extends React.Component {
 
 			componentDidMount () {
-				this.props.store.dispatch(handleInitialData())
-
-				store.subscribe( () => this.forceUpdate() )
+				this.props.dispatch(handleInitialData())
 			}
 
 			render() {
 
-				const {todos, goals, loading} = this.props.store.getState()
+				const {loading} = this.props
 
 				if (loading) {
 					return <Loading />
@@ -354,15 +355,21 @@
 
 				return (
 					<div>
-						<Todos todos={todos} store={this.props.store}/>
-						<Goals goals={goals} store={this.props.store}/>
+						<ConnectedTodos />
+						<ConnectedGoals />
 					</div>
 				)
 			}
 		}
 
+		const ConnectedApp = ReactRedux.connect( (state) => ({
+			loading: state.loading
+		}))(App)
+
 		ReactDOM.render(
-		<App store={store}/>, 
+			<ReactRedux.Provider store={store}>
+				<ConnectedApp />
+			</ReactRedux.Provider>, 
 		document.getElementById('app')
 		);
 
