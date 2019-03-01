@@ -1,8 +1,20 @@
-import API from '../utils.api'
+import {getInitialData} from '../utils/api';
+import {receiveUsers} from './users';
+import {receivePolls} from './polls';
+import {setAuthedUser} from './authedUser'
+import {showLoading, hideLoading} from 'react-redux-loading-bar'
 
+const AUTHED_ID = 'moshepraver'
 
-// state is users and polls
-
-function handleInitialData () {
-		API.getInitialData()
+export function handleInitialData () {
+	return ( (dispatch) => {
+		dispatch(showLoading());
+		return getInitialData()
+			.then( ({users, polls} ) => {
+				dispatch(receiveUsers(users));
+				dispatch(receivePolls(polls));
+				dispatch(setAuthedUser(AUTHED_ID));
+				dispatch(hideLoading());
+			})
+	})
 }
