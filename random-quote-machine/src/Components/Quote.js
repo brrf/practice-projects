@@ -1,52 +1,4 @@
 import React from 'react';
-//import Transition from 'react-transition-group/Transition'
-
-// class Text extends React.Component {
-// 	render() {
-
-// 		// {<div id='author' style={{
-//   //       			...defaultStyle,
-//   //       			...transitionStyles[state]
-//   //     			}}>
-//   //     				{props.author}
-//   //     			</div>}
-// 		const {text, author, color} = this.props;
-// 		const duration = 300;
-
-// 		const defaultStyle = {
-// 		  transition: `opacity ${duration}ms ease-in-out`,
-		  
-// 		}
-
-// 		onEnter () {
-
-// 		}
-
-// 		const transitionStyles = {
-// 		  entering: { opacity: 0 },
-// 		  entered:  { opacity: 1, color: color },
-// 		  exiting: {opacity: 0},
-// 		  exited: {opacity: 1, color: color}
-// 		};
-// 		return (
-// 			<Transition in={this.props.in} timeout={duration}>
-//     		{(state) => (
-//       			<div id='text' style={{
-//         			...defaultStyle,
-//         			...transitionStyles[state]
-//       			}}>
-//       				<i className="fas fa-quote-left"></i>
-//         			{this.props.text}
-//      			</div>
-// 			)}
-//   			</Transition>
-// 		)
-// 	}
-// }
-
-//<Text in={refresh} text={quotes[quoteIndex].text} author={quotes[quoteIndex].author} color={[colors[colorIndex]]}/>
-
-
 
 export default class Quote extends React.Component {
 	constructor (props) {
@@ -77,7 +29,6 @@ export default class Quote extends React.Component {
 			colors: ['#16a085', '#27ae60', '#2c3e50', '#f39c12', '#e74c3c', '#9b59b6', '#FB6964', '#342224', "#472E32", "#BDBB99", "#77B1A9", "#73A857"]
 		}
 		this.newQuote = this.newQuote.bind(this);
-
 	}
 
 	componentDidMount() {
@@ -107,7 +58,6 @@ export default class Quote extends React.Component {
   		}, 1000)
 
 	}
-	
 
 	render () {
 		const {quoteIndex, colorIndex, refresh, quotes, colors} = this.state;
