@@ -18,6 +18,14 @@ body {
 	padding: 40px;
 }
 
+@media (max-width: 600px) {
+	#quote-box {
+		top: 50px;
+		margin: auto;
+		width: 75%;
+	}
+}
+
 #text {
 	margin-bottom: 25px;
 	font-weight:500;
