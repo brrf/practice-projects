@@ -71,7 +71,7 @@ export default class Quote extends React.Component {
 	      				<i className="fas fa-quote-left"></i>
 	        			{quotes[quoteIndex].text}
 	     			</div>
-	     			<div id='author' className={refresh ? 'refresh' : '' }>
+	     			<div className={refresh ? 'refresh' : '' } id='author'>
 	     				-{quotes[quoteIndex].author}
 	     			</div>
 
