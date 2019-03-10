@@ -1,4 +1,12 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
+	padding: 5px;
   margin: 0;
   padding-top: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -14,14 +22,10 @@ code {
     monospace;
 }
 
-.app {
-	padding: 10px;
-}
-
 .section {
 	display: flex;
-	margin: 0px auto 40px auto;
 	flex-direction: column;
+	margin: 0px auto 40px auto;
 	border: 1px solid black;
 	box-shadow: 1px 1px 10px 2px #3a5f5f;
 }
@@ -36,7 +40,6 @@ code {
 
 .maximized-section {
 	width: 95vw;
-	height: 95vw;
 }
 
 .header {
@@ -58,20 +61,80 @@ code {
 }
 
 .text-input {
+	display: block;
 	background-color: #c0d8d8;
 	height: 100%;
+	width: 100%;
 	resize: vertical;
 	font-size: 12px;
+	padding: 3px;
+	overflow-wrap: break-word;
 }
+
+.text-input-editor {
+	min-height: 150px;
+}
+
+.text-input-previewer {
+	min-height: 350px;
+}
+
+
 
 .text-input-maximized {
 	resize: none;
+	min-height: 95vh;
 }
 
 .minimized {
 	display: none;
 }
 
+@media (max-width: 600px) {
+
+	.section {
+		margin-bottom: 5px
+	}
+	.editor-section {
+		width: 100%;
+	}
+	.previewer-section {
+		width: 100%;
+	}
+	.maximized-section {
+	width: 95vw;
+	height: 100%;
+	}
+}
 
 
+  code {
+    background: white;
+    padding: 1px 4px 2px 4px;
+    font-size: 12px;
+    font-weight: bold;
+  }
 
+  pre {
+    background: white;
+    padding: 5px 0 5px 5px;
+  }
+
+  h1 {
+    border-bottom: 2px solid $darkAccent;
+  }
+
+  h2 {
+    border-bottom: 1px solid $darkAccent;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    border: 2px solid $darkAccent;
+    padding-left: 5px;
+    padding-right: 5px;
+  }

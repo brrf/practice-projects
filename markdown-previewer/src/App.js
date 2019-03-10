@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import marked from 'marked'
 
+marked.setOptions({
+  breaks: true,
+});
+
 const Header = ({title, maximized, toggleWindow}) => (
   <header className='header'>
       <div>
@@ -14,12 +18,12 @@ const Header = ({title, maximized, toggleWindow}) => (
 )
 
 const Editor = ({value, changeText, style}) => (
-          <textarea className={style} style={{minHeight: '150px'}} value={value} onChange={changeText}>
+          <textarea id="editor" className={style} value={value} onChange={changeText}>
           </textarea> 
     )
 
 const Previewer = ({text, style}) => (
-   <div className={style} style={{minHeight: '350px'}} dangerouslySetInnerHTML={{__html: marked(text)}}> 
+   <div id="preview" className={style} dangerouslySetInnerHTML={{__html: marked(text)}}> 
    </div>
   )
 
@@ -62,10 +66,10 @@ export default class App extends Component {
       ? ['section maximized-section', 'text-input text-input-maximized', 'minimized', ''] 
       : this.state.maximizedPreviewer
       ? ['minimized', '', 'section maximized-section', 'text-input text-input-maximized']
-      : ['section editor-section', 'text-input', 'section previewer-section', 'text-input']
+      : ['section editor-section', 'text-input text-input-editor', 'section previewer-section', 'text-input text-input-previewer']
     const stylesPreviewer = this.state.maximizedPreviewer ? ['section maximized-section', 'text-input text-input-maximized'] : ['section previewer-section', 'text-input']
     return (
-      <div className="app">
+      <div>
         <section className={styles[0]}>
           <Header toggleWindow={this.toggleEditor} title='Editor' maximized={this.state.maximizedEditor} />
           <Editor style={styles[1]} changeText={this.handleChange} value={this.state.text}/>
