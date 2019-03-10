@@ -22,6 +22,11 @@ code {
     monospace;
 }
 
+textarea {
+	border: none;
+	border-radius: none;
+}
+
 .section {
 	display: flex;
 	flex-direction: column;
