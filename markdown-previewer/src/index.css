@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  padding-top: 50px;
+  padding-top: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -14,40 +14,64 @@ code {
     monospace;
 }
 
-.text-editor {
-	position: relative;
-	margin: 0px auto 100px auto;
+.app {
+	padding: 10px;
+}
 
+.section {
+	display: flex;
+	margin: 0px auto 40px auto;
+	flex-direction: column;
+	border: 1px solid black;
+	box-shadow: 1px 1px 10px 2px #3a5f5f;
+}
+
+.editor-section {
+	width: 50%;
+}
+
+.previewer-section {
+	width: 70%;
+}
+
+.maximized-section {
+	width: 95vw;
+	height: 95vw;
 }
 
 .header {
 	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	border: 1px solid black;
+	justify-content: space-between;	
 	background-color: #4aa3a3;
 	font-family: 'Russo One';
 	font-size: 15px;
-	box-shadow: 1px 1px 10px 2px #3a5f5f;
 	padding: 10px;
+	border-bottom: 1px solid black;
 }
 
-#editor {
-	display: inline-block;
-	resize: vertical;
-	padding: 0px;
-	width: 100%;
-	border: 1px solid black;
-	border-top: none;
-	background-color: #c0d8d8;
-	box-shadow: 1px 1px 10px 2px #3a5f5f;
-	padding: 10px;
-}
-
-#resize-window {
+#resize-button {
 	cursor: pointer;
 }
 
-#resize-window:hover {
+#resize-button:hover {
 	opacity: 0.5;
 }
+
+.text-input {
+	background-color: #c0d8d8;
+	height: 100%;
+	resize: vertical;
+	font-size: 12px;
+}
+
+.text-input-maximized {
+	resize: none;
+}
+
+.minimized {
+	display: none;
+}
+
+
+
+

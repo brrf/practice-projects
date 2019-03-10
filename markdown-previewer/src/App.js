@@ -1,67 +1,84 @@
 import React, { Component } from 'react';
 import marked from 'marked'
 
-class Editor extends Component {
-  constructor (props) {
+const Header = ({title, maximized, toggleWindow}) => (
+  <header className='header'>
+      <div>
+        <i className="fab fa-audible" style={{paddingRight: '10px'}}></i>
+        <span style={{fontFamily: 'Russo One', fontSize: '15px'}}>{title}</span>
+      </div>
+      <i className={maximized ? "fas fa-window-minimize" : "fas fa-window-maximize"}
+         id='resize-button'
+         onClick={toggleWindow}></i>
+    </header>
+)
+
+const Editor = ({value, changeText, style}) => (
+          <textarea className={style} style={{minHeight: '150px'}} value={value} onChange={changeText}>
+          </textarea> 
+    )
+
+const Previewer = ({text, style}) => (
+   <div className={style} style={{minHeight: '350px'}} dangerouslySetInnerHTML={{__html: marked(text)}}> 
+   </div>
+  )
+
+export default class App extends Component {
+
+  constructor(props) {
     super (props);
 
     this.state = {
-      value: placeholder
+      text: placeholder,
+      maximizedEditor: false,
+      maximizedPreviewer: false
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.toggleEditor = this.toggleEditor.bind(this);
+    this.togglePreviewer = this.togglePreviewer.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  toggleEditor () {
+    this.setState({
+      maximizedEditor: !this.state.maximizedEditor
+    })
+  }
+
+  togglePreviewer () {
+    this.setState({
+      maximizedPreviewer: !this.state.maximizedPreviewer
+    })
   }
 
   handleChange (event) {
     this.setState({
-      value: event.target.value
+      text: event.target.value
     })
   }
 
-  render () {
-    return (
-      <div>
-        <div className='text-editor' style={{width: '550px'}}> 
-          <header className='header'>
-            <div>
-              <i className="fab fa-audible" style={{paddingRight: '10px'}}></i>
-              <span style={{fontFamily: 'Russo One', fontSize: '15px'}}>Editor</span>
-            </div>
-            <i class="fas fa-window-maximize" id='resize-window'></i>
-          </header>
-
-          <textarea id='editor' style={{minHeight: '150px'}} value={this.state.value} onChange={this.handleChange}>
-
-          </textarea> 
-        </div>
-        <Previewer text={this.state.value} />
-      </div>
-    )
-  }
-}
-
-const Previewer = ({text}) => (
-   <div className='text-editor' style={{width: '800px'}}> 
-    <header className='header'>
-      <div>
-        <i className="fab fa-audible" style={{paddingRight: '10px'}}></i>
-        <span style={{fontFamily: 'Russo One', fontSize: '15px'}}>Previewer</span>
-      </div>
-      <i class="fas fa-window-maximize" id='resize-window'></i>
-    </header>
-    <div id='editor' style={{minHeight: '300px'}} dangerouslySetInnerHTML={{__html: marked(text)}}></div>
-  </div>
-  )
-
-
-export default class App extends Component {
   render() {
+
+    const styles = this.state.maximizedEditor 
+      ? ['section maximized-section', 'text-input text-input-maximized', 'minimized', ''] 
+      : this.state.maximizedPreviewer
+      ? ['minimized', '', 'section maximized-section', 'text-input text-input-maximized']
+      : ['section editor-section', 'text-input', 'section previewer-section', 'text-input']
+    const stylesPreviewer = this.state.maximizedPreviewer ? ['section maximized-section', 'text-input text-input-maximized'] : ['section previewer-section', 'text-input']
     return (
-      <div className="App">
-        <Editor />
+      <div className="app">
+        <section className={styles[0]}>
+          <Header toggleWindow={this.toggleEditor} title='Editor' maximized={this.state.maximizedEditor} />
+          <Editor style={styles[1]} changeText={this.handleChange} value={this.state.text}/>
+        </section>
+
+        <section className={styles[2]}>
+          <Header toggleWindow={this.togglePreviewer} title='Previewer' maximized={this.state.maximizedPreviewer} />
+          <Previewer style={styles[3]} text={this.state.text}/>
+        </section>  
       </div>
     );
   }
-}
+} 
 
 const placeholder = `# Welcome to my React Markdown Previewer!
 
