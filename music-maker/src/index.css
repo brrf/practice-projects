@@ -1,0 +1,174 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Russo One';
+  background-color: #8d8d8d
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+ul {
+	list-style: none;
+}
+
+h3 {
+	margin: 0;
+	text-align: center;
+}
+
+p {
+	background-color: #8d8d8d;
+	width: 150px;
+	height: 50px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+input {
+	margin-top: 10px;
+}
+#app {
+	display: flex;
+	background-color: #b3b3b3;
+	margin: 150px auto;
+	padding: 25px;
+	width: 75%;
+}
+
+
+
+.live-app {
+	animation-name: live-app;
+	animation-duration: 0.75s;
+	animation-iteration-count: infinite;
+
+}
+
+@keyframes live-app  {
+	0% {
+		border: 3px solid #ffa10030;
+	}
+
+	100% {
+		border: 3px solid #ffa100;
+	}
+}
+
+.keyboard {
+	display: flex;
+	flex-wrap: wrap;
+	width: 50%;
+	margin-right: 15%;
+}
+
+.toggle {
+	margin: 15px 10px 0px 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	background-color: #808080;
+	width: 25%;
+	height: 80px;
+	border-radius: 6px;
+	margin: 10px;
+	box-shadow: 1px 1px 2px 1px;
+}
+
+.button:hover {
+	background-color: #ffdd40;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-bottom: 25px
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #2800ff;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: black;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+	#app {
+		flex-direction: column;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+	.keyboard {
+		width: 100%;
+		margin: 0;
+	}
+
+	.controls {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	p {
+		height: 20px;
+	}
+}
+
