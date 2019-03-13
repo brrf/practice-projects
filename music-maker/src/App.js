@@ -129,93 +129,102 @@ class App extends Component {
   }
 
   componentDidMount () {
+
     document.addEventListener('keydown', (event) => {
       switch (event.code) {
         case 'KeyQ': {
-          const keySound = document.getElementById('0sound');
-          keySound.play();
+          const clip = document.getElementById(this.state.bank[0].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[0].id
+            display: clip.id
           })
-          return;
+          return ;
         }
         case 'KeyW': {
-          const keySound = document.getElementById('1sound');
-          keySound.play();
+          const clip = document.getElementById(this.state.bank[1].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[1].id
+            display: clip.id
           })
           return;
         }
         case 'KeyE': {
-          const keySound = document.getElementById('2sound');
-          keySound.play();
+         const clip = document.getElementById(this.state.bank[2].keyboard);
+         clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[2].id
+            display: clip.id
           })
           return;
         }
         case 'KeyA': {
-          const keySound = document.getElementById('3sound');
-          keySound.play();
+         const clip = document.getElementById(this.state.bank[3].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[3].id
+            display: clip.id
           })
           return;
         }
         case 'KeyS': {
-          const keySound = document.getElementById('4sound');
-          keySound.play();
+         const clip = document.getElementById(this.state.bank[4].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[4].id
+            display: clip.id
           })
           return;
         }
         case 'KeyD': {
-          const keySound = document.getElementById('5sound');
-          keySound.play();
+         const clip = document.getElementById(this.state.bank[5].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[5].id
+            display: clip.id
           })
           return;
         }
         case 'KeyZ': {
-          const keySound = document.getElementById('6sound');
-          keySound.play();
+         const clip = document.getElementById(this.state.bank[6].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[6].id
+            display: clip.id
           })
           return;
         }
         case 'KeyX': {
-          const keySound = document.getElementById('7sound');
-          keySound.play();
+         const clip = document.getElementById(this.state.bank[7].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[7].id
+            display: clip.id
           })
           return;
         }
         case 'KeyC': {
-          const keySound = document.getElementById('8sound');
-          keySound.play();
+          const clip = document.getElementById(this.state.bank[8].keyboard);
+          clip.currentTime = 0;
+          clip.play()
           this.setState({
-            display: this.state.bank[8].id
+            display: clip.id
           })
           return;
         }
         default: return;
       }
-    })  
+    })      
   }
 
-  playSound = (e) => {
+  playSound = (sound) => {
     if (!this.state.power) return;
-    const sound = document.getElementById(`${e.target.id}sound`);
-    console.log(sound)
-    sound.currentTime = 0;
-    sound.play()
+    const clip = document.getElementById(sound.keyboard);
+    clip.currentTime = 0;
+    clip.play()
     this.setState({
-      display: this.state.bank[e.target.id].id
+      display: clip.id
     })
   }
 
@@ -272,12 +281,12 @@ class App extends Component {
     const {bank, power, display, volume} = this.state;
         
     return (
-      <div id='app' className={this.state.power ? 'live-app' : ''}>
+      <div id='drum-machine' className={this.state.power ? 'live-app' : ''}>
         <div className='keyboard'>
             {bank.map( (sound, id) => (
-                <button key={sound.id} className="button" id={id} onClick={this.playSound}>{sound.keyboard}
-                  <audio id={`${id}sound`}>
-                    <source src={sound.url} type="audio/mpeg" />
+                <button key={sound.id} className="drum-pad" id={sound.url} onClick={this.playSound.bind(this, sound)}>{sound.keyboard}
+                  <audio src={sound.url} id={sound.keyboard}className='clip' >
+                    <source  type="audio/mpeg" />
                   </audio>
                 </button>
             ))}
@@ -287,7 +296,7 @@ class App extends Component {
             <h3>{power ? 'ON' : 'OFF' }</h3>
             <Power togglePower={this.togglePower}/>
           </div>
-          <p>{display}</p>
+          <p id='display'>{display}</p>
           <div className='toggle'>
             <h3>{bank === bank1 ? 'BANK1' : 'BANK2'}</h3>
             <Bank toggleBank={this.toggleBank} />

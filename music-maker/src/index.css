@@ -31,7 +31,7 @@ p {
 input {
 	margin-top: 10px;
 }
-#app {
+#drum-machine {
 	display: flex;
 	background-color: #b3b3b3;
 	margin: 150px auto;
@@ -73,7 +73,7 @@ input {
 	align-items: center;
 }
 
-.button {
+.drum-pad {
 	background-color: #808080;
 	width: 25%;
 	height: 80px;
@@ -82,7 +82,7 @@ input {
 	box-shadow: 1px 1px 2px 1px;
 }
 
-.button:hover {
+.drum-pad:hover {
 	background-color: #ffdd40;
 }
 
@@ -150,7 +150,7 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 600px) {
-	#app {
+	#drum-machine {
 		flex-direction: column;
 		width: 100%;
 		margin: 0;
