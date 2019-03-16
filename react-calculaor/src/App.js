@@ -1,8 +1,96 @@
 import React, { Component } from 'react';
 
-let buttons = [
-  'AC', '/', 'x', 7, 8, 9, '-', 4, 5, 6, '+', 1, 2, 3, 0, '.', '='
+let keys = [
+  {
+    value: 'AC',
+    className: 'half',
+    style: {background: 'rgb(172, 57, 57)'}
+  },
+  {
+    value: '/',
+    className: 'quarter',
+    style: {background: 'rgb(102, 102, 102)'}
+  },
+  {
+    value: 'x',
+    className: 'quarter',
+    style: {background: 'rgb(102, 102, 102)'}
+  },
+  {
+    value: '7',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '8',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '9',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '-',
+    className: 'quarter',
+    style: {background: 'rgb(102, 102, 102)'}
+  },
+  {
+    value: '4',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '5',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '6',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '+',
+    className: 'quarter',
+    style: {background: 'rgb(102, 102, 102)'}
+  },
+  {
+    value: '1',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '2',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '3',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '=',
+    className: 'quarter double-height',
+    style: {background: 'rgb(0, 68, 102)'}
+  },
+  {
+    value: '0',
+    className: 'half',
+    style: {background: '#4d4d4d'}
+  },
+  {
+    value: '.',
+    className: 'quarter',
+    style: {background: '#4d4d4d'}
+  },
 ];
+
+  
+
+
 
 
 class App extends Component {
@@ -10,15 +98,26 @@ class App extends Component {
     super(props);
 
     this.state = {
-      display: 0
+      display: '0'
     }
     // this.updateDisplay = this.updateDisplay.bind(this);
   }
 
   updateDisplay = (e) => {
-    console.log({event: e.target})
 
-    if (this.state.display === 0 && !isNaN(e.target.innerHTML) ) {
+    if (this.state.display.length > 31) {
+      this.setState({
+        display: 'EXCEEDED MAX DIGITS'
+      })
+      setTimeout( () => {
+        this.setState({
+          display: 0
+        })
+      }, 1500)
+      return
+    }
+
+    if (this.state.display === '0' && (!isNaN(e.target.innerHTML) || e.target.innerHTML === '0') ) {
       this.setState({
         display: e.target.innerHTML
       })
@@ -68,11 +167,17 @@ class App extends Component {
     return (
       <div className="App">
         <p>{this.state.display}</p>
-          {buttons.map( (button) => (
-            <li key={button} onClick={this.updateDisplay}>
-              {button}
-            </li>
+        <div className='keypad'>
+          {keys.map( (button) => (
+            <button key={button.value} 
+                    onClick={this.updateDisplay} 
+                    className={`key ${button.className}`} 
+                    style={button.style}
+                    disabled={this.state.display === 'EXCEEDED MAX DIGITS' ? true : false}>
+              {button.value}
+            </button>
           ))}
+        </div>
       </div>
     );
   }
