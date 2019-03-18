@@ -3,6 +3,7 @@ import React from 'react';
 export default class Counter extends React.Component {
 
 	formatTimer = () => {
+
 		let timer = new Date(this.props.remaining)
 		let mm = timer.getMinutes();
 		let ss = timer.getSeconds();
@@ -15,9 +16,9 @@ export default class Counter extends React.Component {
 
 	render () {
 		return (
-		<div>
-			<div>{this.props.activity}</div>
-			<div>{this.formatTimer()}</div>
+		<div className='counter'>
+			<h2 id='timer-label'>{this.props.activity}</h2>
+			<div id='time-left' className='counter-display'>{this.formatTimer()}</div>
 		</div>
 		)
 	}

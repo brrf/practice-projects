@@ -11,7 +11,80 @@ body {
   font-family: 'Righteous';
 }
 
+h1 {
+  font-size: 45px;
+}
+
+h2 {
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.app {
+  width: 45%;
+  margin: auto;
+  text-align: center;
+}
+
+.activity-label {
+  font-size: 30px
+}
+
+.length-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.length-control { 
+  display: flex;
+  justify-content: center;
+}
+
+.length-control-child {
+  margin-right: 20px;
+  font-size: 14px;
+}
+
+.length {
+  font-size: 30px;
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  border: 7px solid #13353a;
+  border-radius: 50px;
+  width: 70%;
+  height: 140px;
+  margin: 30px auto 10px;
+
+}
+
+.counter-display {
+  font-family: 'Orbitron';
+  font-size: 50px;
+  font-weight: bold;
+}
+
+button {
+    background: none;
+    outline: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .app {
+    width: 95%;
+  }
+}
+
+
+
+

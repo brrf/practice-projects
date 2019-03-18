@@ -10,118 +10,150 @@ class App extends Component {
     this.state = {
       activity: true,
       active: false,
-      breakLength: 300000,
-      sessionLength: 1500000,
+      breakLength: 0.08,
+      sessionLength: 0.07,
       timeElapsed: 0 
     }
     this.incrementBreak = this.incrementBreak.bind(this);
     this.decrementBreak = this.decrementBreak.bind(this);
     this.incrementSession = this.incrementSession.bind(this);
     this.decrementSession = this.decrementSession.bind(this);
-    this.activate = this.activate.bind(this);
-    this.disactivate = this.disactivate.bind(this);
+    this.toggleActive = this.toggleActive.bind(this);
     this.reset = this.reset.bind(this);
   }
 
-  incrementBreak () {
+  incrementBreak () { 
+    if (this.state.breakLength === 60) return;
+
     this.setState({
       breakLength: this.state.breakLength + 1
     })
+    if (!this.state.active && !this.state.activity) {
+      this.setState({
+        timeElapsed: 0
+      })
+    }
   }
 
   incrementSession () {
+    if (this.state.sessionLength === 60) return;
     this.setState({
       sessionLength: this.state.sessionLength + 1
     })
+    if (!this.state.active && this.state.activity) {
+      this.setState({
+        timeElapsed: 0
+      })
+    }
   }
 
   decrementBreak () {
+    if (this.state.breakLength === 1) return;
     this.setState({
       breakLength: this.state.breakLength - 1
     })
+    if (!this.state.active && !this.state.activity) {
+      this.setState({
+        timeElapsed: 0
+      })
+    }
   }
 
   decrementSession () {
+    if (this.state.sessionLength === 1) return;
     this.setState({
       sessionLength: this.state.sessionLength - 1
     })
+    if (!this.state.active && this.state.activity) {
+      this.setState({
+        timeElapsed: 0
+      })
+    }
   }
 
-  activate () {
-    this.setState({
-      active: true
-    })
-    this.startCounting();
-  }
+  toggleActive () {
+    let length = this.state.activity
+      ? this.state.sessionLength
+      : this.state.breakLength
 
-  disactivate () {
-    this.setState({
-      active: false
-    }, () => clearInterval(this.counting))
+    let startTime = Date.now() - this.state.timeElapsed;
+    this.setState(state => {
+      if (state.active) {
+        clearInterval(this.toggle)
+      } else {
+        this.toggle = setInterval( () => {
+          if (Date.now() - startTime >= length * 60000) {
+            startTime = Date.now();
+            length === state.sessionLength 
+              ? length = state.breakLength
+              : length = state.sessionLength
+            this.switchActivity()
+          } else {
+            this.setState({timeElapsed: Date.now() - startTime});  
+          }                  
+        })
 
+      } 
+      return {active: !state.active};   
+    })     
   }
 
   reset () {
+    clearInterval(this.toggle);
     this.setState({
       activity: true,
       active: false,
-      breakLength: 300000,
-      sessionLength: 1500000,
+      breakLength: 5,
+      sessionLength: 25,
       timeElapsed: 0 
     })
-  }
-
-  startCounting () {
-    this.counting = setInterval( () => {
-      if (this.state.active) {
-        this.setState({
-          timeElapsed: this.state.timeElapsed + 1000
-        })
-      }
-      this.switchActivity();
-    }, 1000)    
+    const clip = document.getElementById('beep');
+    clip.currentTime = 0;
   }
 
   switchActivity () {
-    const length = this.state.activity
-      ? this.state.sessionLength
-      : this.state.breakLength;
-
-    if (this.state.timeElapsed === length) {
       this.setState({
         activity: !this.state.activity,
         timeElapsed: 0
       })
-    } 
+      const clip = document.getElementById('beep');
+      clip.currentTime = 0;
+      clip.play()
   }
 
-
-
   render() {
-    const {activity, sessionLength, breakLength, timeElapsed} = this.state;
+    const {activity, sessionLength, breakLength, timeElapsed, active} = this.state;
     const remaining = (activity)  
-      ? sessionLength - timeElapsed 
-      : breakLength - timeElapsed;
+      ? sessionLength * 60000 - timeElapsed 
+      : breakLength * 60000 - timeElapsed;
 
     return (
-      <div className="App">
+      <div className='app'>
         <h1>Pomodoro Clock</h1>
-        <div>
+        <div className='length-controls'>
           <Length activity='Break' 
                   length={this.state.breakLength} 
                   increment={this.incrementBreak}
-                  decrement={this.decrementBreak}/>
+                  decrement={this.decrementBreak} 
+                  active={active}
+                  id='break'/>
           <Length activity='Session' 
                   length={this.state.sessionLength}
                   increment={this.incrementSession}
-                  decrement={this.decrementSession} />
+                  decrement={this.decrementSession}
+                  active={active}
+                  id='session' />
         </div>
         <Counter activity={activity === true ? 'Session' : 'Break'} 
-                 remaining={remaining} />
-        <Controls activate={this.activate}
+                 remaining={remaining}
+                 active={active} />
+        <Controls toggleActive={this.toggleActive}
                   disactivate={this.disactivate}
                   reset={this.reset}/>
-        <p>{this.state.active === true ? 'true': 'false'}</p>
+        <audio src="https://goo.gl/65cBl1" id='beep'>
+                    <source  type="audio/mpeg" />
+        </audio>
+        <p style={{color: '#00264d'}}>Coded by: Moshe Praver, MD</p>
       </div>
     );
   }
