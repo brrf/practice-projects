@@ -10,8 +10,8 @@ class App extends Component {
     this.state = {
       activity: true,
       active: false,
-      breakLength: 0.08,
-      sessionLength: 0.07,
+      breakLength: 5,
+      sessionLength: 25,
       timeElapsed: 0 
     }
     this.incrementBreak = this.incrementBreak.bind(this);
@@ -82,7 +82,7 @@ class App extends Component {
         clearInterval(this.toggle)
       } else {
         this.toggle = setInterval( () => {
-          if (Date.now() - startTime >= length * 60000) {
+          if (Date.now() - startTime > length * 60000) {
             startTime = Date.now();
             length === state.sessionLength 
               ? length = state.breakLength
@@ -108,6 +108,7 @@ class App extends Component {
       timeElapsed: 0 
     })
     const clip = document.getElementById('beep');
+    clip.pause();
     clip.currentTime = 0;
   }
 
