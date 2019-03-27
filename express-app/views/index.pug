@@ -1,6 +1,8 @@
-doctype html
-html
-	head
-		title knowledge base
-	body
-		h1 Hello, #{name}!
+extends layout
+
+block content
+	h1 Welcome, #{name}
+	ul
+		each article, i in articles
+			li.list-group-item
+				a(href='/article/'+article._id)= article.title
