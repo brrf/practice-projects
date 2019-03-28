@@ -4,9 +4,6 @@ const { check, validationResult } = require('express-validator/check');
 //Bring in models
 let Article = require('../models/Article')
 
-
-
-
 //Load edit form
 router.get('/edit/:id', (req, res) => {
 	Article.findById(req.params.id, (err, article) => {
@@ -39,7 +36,6 @@ router.post('/edit/:id', (req, res) => {
 })
 
 //Add Article Route
-
 router.get('/add', (req, res) => {
 	res.render('add_article', {
 		title: 'Add Article'
@@ -53,7 +49,7 @@ router.post('/add', [
 	check('body', 'A body is required').not().isEmpty()	
 	], (req, res, next) => {
 
-	//Get errors
+//Get errors
 	let errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return (res.render('add_article', {

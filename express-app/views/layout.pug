@@ -10,8 +10,15 @@ html
 			button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
 				span.navbar-toggler-icon
 			#navbarNavAltMarkup.collapse.navbar-collapse
-				a.nav-item.nav-link(href='/') Home
-				a.nav-item.nav-link(href='/articles/add') Add Article
+				ul.nav.navbar.nav
+					li
+						a.nav-item.nav-link(href='/articles/add') Add Article
+				ul.nav.navbar-nav.navbar-right
+					li
+						a.nav-item.nav-link(href='/users/register') Register
+					li
+						a.nav-item.nav-link(href='/users/login') Login
+
 		.container
 			!= messages('message', locals)
 			if errors
