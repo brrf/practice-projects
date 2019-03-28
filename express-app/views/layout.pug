@@ -11,14 +11,16 @@ html
 				span.navbar-toggler-icon
 			#navbarNavAltMarkup.collapse.navbar-collapse
 				ul.nav.navbar.nav
-					li
-						a.nav-item.nav-link(href='/articles/add') Add Article
-				ul.nav.navbar-nav.navbar-right
-					li
-						a.nav-item.nav-link(href='/users/register') Register
-					li
-						a.nav-item.nav-link(href='/users/login') Login
-
+					if user
+						li
+							a.nav-item.nav-link(href='/articles/add') Add Article
+						li 
+							a.nav-item.nav-link(href='/users/logout') Logout
+					else
+						li
+							a.nav-item.nav-link(href='/users/register') Register
+						li
+							a.nav-item.nav-link(href='/users/login') Login
 		.container
 			!= messages('message', locals)
 			if errors
@@ -28,6 +30,7 @@ html
 			br
 			hr
 			footer
+				p.moshe Moshe Praver, MD
 				p Copyright &copy; 2019
 		script(src='/jquery/dist/jquery.js')
 		script(src='/bootstrap/dist/js/bootstrap.js')
