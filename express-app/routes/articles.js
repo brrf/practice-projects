@@ -83,14 +83,25 @@ router.post('/add', [
 
 //Delete article
 router.delete('/:id', (req, res) => {
+	if(!req.user._id) {
+		res.status(500).send();
+	}
 	let query = {_id:req.params.id}
-	Article.remove(query, (err) => {
-		if (err) {
-			console.log(err)
+
+	Article.findById(req.params.id, (err, article) => {
+
+		if (article.author != req.user._id) {
+			res.status(500).send();
+		} else {
+			Article.remove(query, (err) => {
+				if (err) {
+					console.log(err)
+				}
+				req.flash('danger', 'Article removed!')
+				res.send('Success')
+			})
 		}
-		req.flash('danger', 'Article removed!')
-		res.send('Success')
-	})
+	})	
 })
 
 //Get single article

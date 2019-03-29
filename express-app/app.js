@@ -89,7 +89,7 @@ app.get('*', function (req, res, next) {
 app.get('/', (req, res) => {
 	Article.find({}, (err, articles) => {
 		if (err) {
-			console.lo(err)
+			console.log(err)
 		} else {
 			res.render('index', {
 				articles
