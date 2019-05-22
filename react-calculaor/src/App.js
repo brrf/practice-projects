@@ -163,7 +163,6 @@ class App extends Component {
       case 'x': result = +this.state.result * +this.state.display        
         break;
       case '/': result = +this.state.result / +this.state.display
-      console.log(result.toString())
         break;
       default: break;
     } 
