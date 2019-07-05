@@ -22,9 +22,36 @@ function output(text) {
 
 function getFile(file) {
 	fakeAjax(file,function(text){
-		// what do we do here?
+		handleResponse(file, text);
 	});
 }
+
+function handleResponse(filename, content) {
+
+	var filenames = ['file1', 'file2', 'file3'];
+
+	//register the filename in an object;
+	if (!(filename in responses)) {
+		responses[filename] = content
+	}
+	// on each call, print out content that has returned in order and mark as printed; if not returned yet exit loop
+	for (let i = 0; i < filenames.length; i++) {
+		if (filenames[i] in responses) {
+			if (typeof responses[filenames[i]] == 'string') {
+				output(responses[filenames[i]]);
+				responses[filenames[i]] = false;
+			}
+		} else {
+			return;
+		}
+	}
+	//If make it through entire loop of filenames, console 'completed'
+	output('Completed')
+
+	//
+};
+
+let responses = {};
 
 // request all files at once in "parallel"
 getFile("file1");
