@@ -26,6 +26,16 @@ function getFile(file) {
 	});
 }
 
+let files = ['file1', 'file2', 'file3'];
+
+files.map(getFile)
+	.reduce( function chain (accumulator, currentPromise) {
+		return accumulator.then(function() {
+		return currentPromise
+	}).then(output)
+}, Promise.resolve())
+	.then( () => output('Complete!'))
+
 // Request all files at once in
 // "parallel" via `getFile(..)`.
 //

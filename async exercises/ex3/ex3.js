@@ -34,8 +34,8 @@ const file3 = getFile('file3');
 
 
 file1
-	.then( function(response1) {
-		output(response1)
+	.then(output)
+	.then( function() {
 		return file2
 	})
 	.then(function(response2) {

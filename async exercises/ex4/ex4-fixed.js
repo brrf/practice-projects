@@ -44,5 +44,5 @@ function getFile(file) {
 	Promise.resolve() // fulfilled promise to start chain
 )
 .then(function() {
-	output("Complete!");
+	output("Completed!");
 });
