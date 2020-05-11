@@ -91,12 +91,150 @@ function flatten(linkedList) {
 	//edge cases: empty list, only one item in the list, what happens when you're on the last 2 items.
 }
 
-const list1 = new LinkedList([1, 5, 7]);
-const list2 = new LinkedList([2, 4, 6]);
-const list3 = new LinkedList([3, 8, 9]);
-const deepList = new LinkedList([list1, list2, list3]);
 
-console.log(flatten(deepList));
+//DUPLICATE NUMBER
+function duplicateNumber(array) {
+	let options = [];
+	for (let i = 0; i < array.length - 1; i++) {
+		options.push(i);
+	}
+	let returnNumber;
+	
+	array.forEach(number => {
+		if (options.indexOf(number) == -1) returnNumber = number;;
+		const index = options.indexOf(number);
+		options.splice(index, 1)
+	})
+	return returnNumber;
+};
+
+function duplicateNumberTwo(array) {
+	//the array is essentially 0...n-2 + the duplicatedNumber
+	let expectedSum = 0;
+	let actualSum = 0;
+
+	for (let i = 1; i < array.length - 1; i++) {
+		expectedSum += i;
+	}
+
+	array.forEach(num => actualSum += num);
+
+	return actualSum - expectedSum
+};
+
+function maxSumSubarray (array) {
+	let currentMax = 0;
+	let currentSum = 0;
+
+	array.forEach(number => {
+		currentSum = Math.max(currentSum + number, 0);
+		currentMax = Math.max(currentSum, currentMax);
+	})
+	return currentMax;
+}
+
+function FibonacciTriangle(height) {
+	if (height === 0) return 0;
+
+	let currentRow = [1];
+	for (let i = 1; i < height; i++) {
+		let newRow = [1];
+		for (let j = 0; j < currentRow.length - 1; j++) {
+			newRow.push(currentRow[j] + currentRow[j+1])
+		}
+		newRow.push(1);
+		currentRow = newRow;
+	}
+	return currentRow;
+};
+
+function even_after_odd(head) {
+	let evenHead = null;
+	let evenTail = null;
+	let oddHead = null;
+	let oddTail = null;
+
+	let currentEval = head;
+	while(currentEval) {
+		if(currentEval.value % 2 === 0) {
+			if (!evenHead) {
+				evenHead = currentEval;
+				evenTail = evenHead;
+			} else {
+				evenTail.next = currentEval;
+				evenTail = evenTail.next
+			}
+		} else {
+			if (!oddHead) {
+				oddHead = currentEval;
+				oddTail = oddHead
+			} else {
+				oddTail.next = currentEval;
+				oddTail = oddTail.next
+			}
+		}
+		currentEval = currentEval.next
+	}	
+	oddTail.next = evenHead;
+
+	return head;
+};
+
+function skipIDeleteJ(head, i, j) {
+	let currentNode = head;
+	let newNext;
+
+	while(currentNode) {
+		// currentNode = false;
+		for (let skip = 1; skip < i; skip++) {
+				if (!currentNode) break;
+				currentNode = currentNode.next
+		}
+		newNext = currentNode;
+		for (let remove = 0; remove <= j; remove++) {
+				if (!currentNode || !newNext) break;
+				newNext = newNext.next;			
+		} 
+		currentNode.next = newNext;
+		currentNode = newNext;
+	}
+	return head
+};
+
+
+class Stack {
+	constructor() {
+		this.items = [];
+	}
+
+	size() {
+		return this.items.length;
+	}
+
+	push(item) {
+		this.items.push(item)
+	}
+
+	pop() {
+		if (this.size === 0) return null;
+		return this.items.pop();
+	}
+};
+
+function equationChecker(string) {
+	let parenthesesStack = new Stack();
+
+	for (let i = 0; i < string.length; i++) {
+		if (string[i] === '(') parenthesesStack.push('+');
+		else if (string[i] === ')') parenthesesStack.pop();
+	}
+	return parenthesesStack.size() === 0 ? true: false;
+}
+
+console.log(equationChecker('((32+8)∗(5/2))/(2+6'));
+
+
+
 </script>
 	
 </body>
