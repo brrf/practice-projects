@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Data Structures</title>
+</head>
+<body>
+
+
+<script>
+	
+class Node {
+	constructor(value) {
+		this.value = value;
+		this.next = null
+   }
+}
+        
+class LinkedList {
+	constructor (list) {
+		this.head = null;
+		if (list) {
+			list.forEach(value => {
+				this.append(value)
+			})
+		}
+	};
+
+	append(value) {
+		if (this.head === null) {
+			this.head = new Node(value)
+			return;
+		};
+		let node = this.head;
+		while (node.next) {
+			node = node.next
+		};
+
+		node.next = new Node(value)
+		return;
+	}
+}
+
+function merge(list1, list2) {
+	let merged = new LinkedList();
+	//if either list is null return the other list
+	if (!list1) return list2;
+	if (!list2) return list1;
+
+	//start with each lists head
+	let currentNode1 = list1.head;
+	let currentNode2 = list2.head;
+
+
+	//while either currentNode is not null append the lowest current value to merged
+	while (currentNode1 || currentNode2) {
+		if (!currentNode1) {
+			merged.append(currentNode2.value);
+			currentNode2 = currentNode2.next;
+		} else if (!currentNode2) {
+			merged.append(currentNode1.value);
+			currentNode1 = currentNode1.next;
+		} else if (currentNode1.value <= currentNode2.value) {
+			merged.append(currentNode1.value);
+			currentNode1 = currentNode1.next;
+		} else {
+			merged.append(currentNode2.value);
+			currentNode2 = currentNode2.next;
+		}
+	}
+	return merged;
+}
+
+function flatten(linkedList) {
+	//console.log(linkedList)
+	//merge 2 items adjacent items, then move on to the next one.
+	let flattenedList = linkedList.head.value;
+	let nextListToMerge = linkedList.head.next;
+
+	if (flattenedList === null) return linkedList;
+
+	while(nextListToMerge) {
+		//pass 2 linkedLists into merged
+		flattenedList = merge(flattenedList, nextListToMerge.value);
+		nextListToMerge = nextListToMerge.next;
+	}
+	return flattenedList;
+
+
+
+	//edge cases: empty list, only one item in the list, what happens when you're on the last 2 items.
+}
+
+const list1 = new LinkedList([1, 5, 7]);
+const list2 = new LinkedList([2, 4, 6]);
+const list3 = new LinkedList([3, 8, 9]);
+const deepList = new LinkedList([list1, list2, list3]);
+
+console.log(flatten(deepList));
+</script>
+	
+</body>
+</html>
