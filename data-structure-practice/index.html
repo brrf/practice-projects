@@ -209,7 +209,7 @@ class Stack {
 
 	size() {
 		return this.items.length;
-	}
+	}	
 
 	push(item) {
 		this.items.push(item)
@@ -230,6 +230,56 @@ function equationChecker(string) {
 	}
 	return parenthesesStack.size() === 0 ? true: false;
 }
+
+function reverseStack (stack) {
+	let reversedStack = new Stack();
+
+	while (stack.size()) {
+		const item = stack.pop();
+		reversedStack.push(item);
+	}
+	return reversedStack;
+} 
+
+function sumIntegers(n) {
+	if (n === 0) return 0;
+	if (n === 1) {
+		return 1;
+	} else {
+		return n + sumIntegers(n - 1);
+	}
+}
+
+function factorial(n) {
+	if (n === 1) {
+		return 1;
+	} else {
+		return n * factorial(n - 1)
+	}
+}
+
+const reverseString = (str) => {
+	if (str) {
+		let tempString = reverseString(str.substr(1)) + str[0];
+		return tempString;
+	} else {
+		return str
+	}
+};
+
+const isPalindrome = (str) => {
+	if (str.length <= 1) {
+		return true
+	} else {
+		const subString = str.slice(1, str.length - 1);
+		const firstChar = str[0];
+		const lastChar = str[str.length - 1];
+
+		return (firstChar === lastChar && isPalindrome(subString))
+	}
+}
+
+console.log(isPalindrome('racecars'));
 
 
 
