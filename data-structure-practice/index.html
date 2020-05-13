@@ -6,7 +6,7 @@
 </head>
 <body>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
 <script>
 	
 class Node {
@@ -279,9 +279,56 @@ const isPalindrome = (str) => {
 	}
 }
 
-console.log(isPalindrome('racecars'));
+function addOneRecursive(array) {
+	let trailingZeros = 0;
 
+	function loop(array) {
+		if (array.length === 1 && array[0] === 9) {
+			return [1, 0];
+		}
+		if (array[array.length - 1] < 9) {
+			array[array.length - 1] = array[array.length - 1] + 1; 
+		} else {
+			trailingZeros++;
+			array = loop(array.slice(0, array.length - 1));
+		}
+		return array;
+	}
 
+	let returnArray = loop(array);
+	for (let i = 0; i < trailingZeros; i++) {
+		returnArray.push(0);
+	}
+	return returnArray;
+}
+
+function listPermutations(inputList) {
+	let finalCompoundList = [];
+
+	//this is the first thing pushed to finalCompoundList
+	if (inputList.length === 0) {
+        finalCompoundList.push([])
+	} else {
+		let first_element = inputList[0];
+        let rest_list = inputList.slice(1);
+
+        let sub_compoundList = listPermutations(rest_list);
+
+        sub_compoundList.forEach(list => {
+        	for (let j = 0; j <= list.length; j++) {
+        		let newList = _.cloneDeep(list);
+        		newList.splice(j, 0, first_element);
+
+        		finalCompoundList.push(newList);
+        	}
+        })
+        
+        
+    }                
+	return finalCompoundList;
+};
+
+console.log(listPermutations([0, 1, 2]));
 
 </script>
 	
