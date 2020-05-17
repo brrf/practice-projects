@@ -31,13 +31,41 @@ div img {
 }
 
 /* grid system -- mobile first! */
+.row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+[class*='col'] {
+	margin-left: 2%;
+}
 
 
 /* Mobile Landscape Screen Sizes */
-@media only screen and (min-width: 480px)  {
-
+@media only screen and (min-width: 750px)  {
+	.col-2-4 {
+		flex-basis: 48%;
+	}
+	.col-1-4 {
+		flex-basis: 22%
+	}
 }
 /* Desktop screen Sizes */
 @media only screen and (min-width: 768px) {
+	.col-2-4 {
+		flex-basis: 22%;
+	}
+	.col-1-2 {
+		flex-basis: 48%;
+	}
+	.col-1-4 {
+		flex-basis: 22%;
+	}
+	.col-3 {
+		flex-basis: 74%;
+	}
+	.col-4 {
+		flex-basis: 98%;
+	}
 
 }

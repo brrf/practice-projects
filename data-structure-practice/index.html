@@ -321,14 +321,239 @@ function listPermutations(inputList) {
 
         		finalCompoundList.push(newList);
         	}
-        })
-        
-        
-    }                
+        });     
+    };          
 	return finalCompoundList;
 };
 
-console.log(listPermutations([0, 1, 2]));
+function stringPermutations(string) {
+	let permutationsArray = [];
+
+	if (string.length === 1) {
+		permutationsArray.push(string);
+	} else {
+		const currentLetter = string[0]
+		const remainingLetters = string.slice(1);
+
+		let currentPermutationArray = stringPermutations(remainingLetters);
+
+		currentPermutationArray.forEach(subString => {
+			let subStringArray = subString.split('');
+			for (let i = 0; i <= subStringArray.length; i++) {
+				let permutation = [...subStringArray];
+				permutation.splice(i, 0, currentLetter);
+				permutation = permutation.join('');
+				permutationsArray.push(permutation);
+			}
+		})
+	}
+	return permutationsArray;
+}
+
+function keypad(integers) {
+	let keypadCombos = [];
+
+	const integerArray = integers.toString().split('');
+
+	if (integerArray.length === 1) {
+		const chars = get_characters(Number(integerArray[0]))
+		for (let i = 0; i < chars.length; i++) {
+			keypadCombos.push(chars[i]);
+		} 
+	} else {
+		let currentChars = get_characters(Number(integerArray[0]));
+		let remainingIntegers = Number(integerArray.slice(1).join(''));
+
+		let currentCombos = keypad(remainingIntegers);
+
+		currentCombos.forEach(string => {
+			for (let i = 0; i < currentChars.length; i++) {
+				let newCombo = currentChars[i] + string;
+				keypadCombos.push(newCombo);
+			}
+		})
+	}
+	return keypadCombos;
+}
+
+function get_characters(num) {
+    if (num == 2) {
+        return "abc"
+    }
+    else if (num == 3) {
+        return "def"
+    }
+    else if (num == 4) {
+        return "ghi"
+    }
+    else if (num == 5) {
+        return "jkl"
+    }
+    else if (num == 6) {
+        return "mno"
+    }
+    else if (num == 7) {
+        return "pqrs"
+    }
+    else if (num == 8) {
+        return "tuv"
+    }
+    else if (num == 9) {
+        return "wxyz"
+    }
+    else {
+        return ""
+    }
+};
+
+function deepReverse(list) {
+	let returnList = [];
+
+	for (let i = list.length - 1; i >= 0; i--) {
+		if (Array.isArray(list[i])) {
+			returnList.push(deepReverse(list[i]))
+		} else {
+			returnList.push(list[i]);
+		}
+	}
+	return returnList
+};
+
+function printIntegers(n) {
+	if (n <= 0) return;
+	console.log(n);
+	printIntegers(n - 1);
+}
+
+function returnCodes(integer) {
+	if (integer == 0) {
+        return [""];
+	}
+	//append double digit char to list of return codes
+	const lastTwo = integer % 100;
+	let currentTwoCodes = [];	
+	if (lastTwo <= 26 && lastTwo > 9) {
+		currentTwoCodes = returnCodes(Math.floor(integer / 100));
+		const newTwoChar = getChar(lastTwo);		
+
+		currentTwoCodes.forEach((code, index) => {
+			currentTwoCodes[index] = code + newTwoChar
+		});
+	};
+
+	//append single digit char to list of return code
+	const lastOne = integer % 10;
+	const newOneChar = getChar(lastOne);
+
+	let currentOneCodes = returnCodes(Math.floor(integer / 10));
+
+	currentOneCodes.forEach((code, index) => {
+		currentOneCodes[index] = code + newOneChar;
+	})
+	const currentCodes = [...currentTwoCodes, ...currentOneCodes];
+	return currentCodes;
+}
+
+function getChar(integer) {
+	return String.fromCharCode(integer + 96);
+}
+
+function returnSubsets(array) {
+	if (array.length === 0) {
+		return [[]];
+	} else {
+		const currentValue = array[array.length - 1];
+		let currentSubsets = returnSubsets(array.slice(0, array.length - 1));
+
+		let newSubsets = [...currentSubsets];
+		currentSubsets.forEach(array => {
+			const addedArray =[...array];
+			addedArray.push(currentValue);
+			newSubsets.push(addedArray);
+		});
+		return newSubsets;
+	}
+}
+
+function lastIndex(arr, target) {
+	let index = arr.length - 1
+	if (index < 0) {
+		return -1
+	} else if (arr[index] === target) {
+		return index
+	} else {
+		return lastIndex(arr.slice(0, index), target)
+	}
+};
+
+function pairSumToTarget(list, target) {
+	let indices = [];
+
+	for (let i = 0; i < list.length; i++) {
+		if (indices.includes(target - list[i])) {
+			const index = indices.indexOf(target - list[i]);
+			return [index, i]
+		} else {
+			indices.push(list[i]);
+		}
+	}
+
+	return [-1, -1]
+};
+
+function longestSubsequence(array) {
+	const set = new Set(array);
+
+	let maxLength = -1;
+	let intialMaxNumber = -1;
+
+	set.forEach(number => {
+		if (set.has(number - 1)) {
+			return;
+		} else {	
+			set.delete(number);
+			let counter = 1;
+			let currentNumber = number;
+			while(set.has(currentNumber + 1)) {
+				counter++;
+				currentNumber++
+				set.delete(currentNumber);
+
+			}
+			if (counter > maxLength) {
+				maxLength = counter;
+				initialMaxNumber = number;
+			}
+		}
+	})
+	let longestSubsequence = [];
+	for (let i = 0; i < maxLength; i++) {
+		longestSubsequence.push(initialMaxNumber + i);
+	}
+	return longestSubsequence;
+}
+
+function recursiveBinarySearch (array, target) {
+	let counter = 0;
+	return recursiveBinarySearchWithCounter(array, target, counter);
+};
+
+function recursiveBinarySearchWithCounter(array, target, counter) {
+	const length = array.length;
+	const position = array.length % 2 === 0 ? (array.length / 2) - 1: (array.length / 2) - 0.5;
+
+	if (array[position] === target) {
+		return position + counter;
+	} else if (target > array[position]) {
+		return recursiveBinarySearchWithCounter(array.slice(position + 1), target, position + counter + 1);
+	} else {
+		return recursiveBinarySearchWithCounter(array.slice(0, position), target, counter);
+	}
+};
+
+let array = [1, 4, 5, 7, 8, 9, 10];
+
+console.log(recursiveBinarySearch(array, 10));
 
 </script>
 	
