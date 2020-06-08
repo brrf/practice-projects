@@ -601,7 +601,25 @@ function bubbleSort(array) {
 	return array;
 }
 
-let array = [16,49,3,12,56,49,55,22,13,46,19,55,46,13,25,56,9,48,45]
+create table animals (  
+       name text,
+       species text,
+       birthdate date);
+
+create table diet (
+       species text,
+       food text);  
+
+create table taxonomy (
+       name text,
+       species text,
+       genus text,
+       family text,
+       t_order text); 
+
+create table ordernames (
+       t_order text,
+       name text);
 
 console.log(bubbleSort(array));
 

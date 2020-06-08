@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
 import sys
 
 
@@ -8,6 +9,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://moshepraver@localhost:5432/todoapp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+CORS(app)
 
 migrate = Migrate(app, db)
 
@@ -27,6 +29,11 @@ class TodoList(db.Model):
 	name = db.Column(db.String(), nullable=False)
 	todos = db.relationship('Todo', backref='list', lazy=True)
 	completed = db.Column(db.Boolean, nullable=True, default=False)
+
+@app.after_request
+def after_request(response):
+	response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+	response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
 
 @app.route('/todos/create', methods=['post'])
 def create_todo():
