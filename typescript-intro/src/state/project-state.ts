@@ -1,5 +1,6 @@
-import { Project } from '../models/project.js';
-import { ProjectStatus } from '../models/project.js';
+import { Project } from '../models/project';
+import { ProjectStatus } from '../models/project';
+
 type Listener = (projects: Project[]) => void;
 
 class ProjectState {
