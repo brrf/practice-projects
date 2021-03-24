@@ -23,14 +23,8 @@ export class ProjectItem extends DOMComponent<HTMLUListElement, HTMLLIElement> i
         event.dataTransfer!.effectAllowed = 'move';
     }
 
-    @bindThis
-    dragEndHandler(_: DragEvent) {
-
-    }
-
     configure() {
         this.element.addEventListener('dragstart', this.dragStartHandler)
-        this.element.addEventListener('dragstart', this.dragEndHandler)
     }
 
     renderProjectItem() {
