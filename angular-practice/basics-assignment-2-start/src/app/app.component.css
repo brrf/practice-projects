@@ -1,8 +1,0 @@
-button {
-    color: green;
-}
-
-button[disabled] {
-    color: red;
-    cursor: not-allowed;
-}
