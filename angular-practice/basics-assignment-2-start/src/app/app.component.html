@@ -14,3 +14,6 @@
 >Reset input</button>
 <hr>
 <app-practice3></app-practice3>
+<app-game-control (eventEmitter)="handleGameClock($event)"></app-game-control>
+<app-odd *ngFor="let oddNumber of oddNumbers" [number]="oddNumber"></app-odd>
+<app-even *ngFor="let evenNumber of evenNumbers" [number]="evenNumber"></app-even>
