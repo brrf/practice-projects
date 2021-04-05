@@ -7,9 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-first-app';
-  activeHeaderNav = 'recipes';
-
-  handleHeaderNav(header: string) {
-    this.activeHeaderNav = header;
-  }
 }
