@@ -8,7 +8,7 @@ import { NgForm } from 'basics-assignment-2-start/node_modules/@angular/forms/fo
 })
 export class FormPracticeComponent implements OnInit {
   defaultSubscription = 'basic';
-  formData: {}
+  formData: NgForm
   constructor() { }
 
   ngOnInit(): void {
