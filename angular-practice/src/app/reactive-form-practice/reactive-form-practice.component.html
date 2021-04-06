@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+         <form [formGroup]="reactiveForm">
+             <label for="project">Project</label>
+             <input id="project" type="text" class="form-control" name="project" formControlName="project"/>
+             <p *ngIf="!reactiveForm.get('project').valid && reactiveForm.get('project').touched">Username is required</p>
+             <label for="email">Email</label>
+             <input id="email" type="email" class="form-control" name="email" formControlName="email"/>
+             
+             <label for="status">Status:</label>
+             <select class="form-control" name="status" id="status" formControlName="status">
+                 <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+             </select>
+             <button class="btn btn-primary" type="submit">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+  
