@@ -63,7 +63,6 @@ export class AuthService {
             clearTimeout(this.autoLogoutTimer)
         }
         this.autoLogoutTimer = null;
-        
     }
 
     autoLogout(expirationDuraton: number) {
