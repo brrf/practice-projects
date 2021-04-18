@@ -18,14 +18,6 @@ import { RecipesRoutingModule } from './recipes-routing-module';
         RecipeStartComponent,
         EditRecipeComponent,
     ],
-    exports : [
-        RecipesComponent,
-        RecipeListComponent,
-        RecipeDetailComponent,
-        RecipeItemComponent,
-        RecipeStartComponent,
-        EditRecipeComponent,
-    ],
     imports: [
         RecipesRoutingModule,
         CommonModule,
